@@ -1,0 +1,14 @@
+.footer__copyrigth {
+  color: var(--color-gray);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 19px 36px;
+}
+
+@media (min-width: 880px) {
+  .footer__copyrigth {
+    font-size: 18px;
+    line-height: 22px;
+    padding: 0 0 60px;
+  }
+}

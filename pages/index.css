@@ -36,3 +36,6 @@
 @import url(../blocks/gallery/__title/gallery__title.css);
 @import url(../blocks/gallery/__btn-like/gallery__btn-like.css);
 @import url(../blocks/gallery/__btn-like/_like/gallery__btn-like_like.css);
+
+/* Импорт footer */
+@import url(../blocks/footer/__copyrigth/footer__copyrigth.css);
