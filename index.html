@@ -24,7 +24,7 @@
               aria-label="Изменить профиль">
             </button>
           </div>
-          <p class="profile__description">Исследователь океана</p>
+          <p class="profile__job">Исследователь океана</p>
         </div>
         <img class="profile__avatar"
           src="./images/avatar.jpg"
@@ -115,17 +115,16 @@
     <section class="popup"
       aria-label="Форма редактирования профиля">
       <form class="popup__container"
+      
         method="post">
         <fieldset class="popup__fieldset">
           <legend class="popup__heading">Редактировать профиль</legend>
           <input class="popup__name input"
             type="text"
-            name="name"
-            value="Жак-Ив Кусто">
+            name="name">
           <input class="popup__job input"
             type="text"
-            name="job"
-            value="Исследователь океана">
+            name="job">
         </fieldset>
         <button class="popup__btn-save btn"
           type="submit">
@@ -137,5 +136,6 @@
       </form>
     </section>
 
+    <script src="./script/index.js"></script>
   </body>
 </html>
