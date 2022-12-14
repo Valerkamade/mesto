@@ -18,6 +18,9 @@
 /* Импорт кнопок */
 @import url(../blocks/btn/btn.css);
 
+/* Импорт input */
+@import url(../blocks/input/input.css);
+
 /* Импорт profile */
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__wrapper/profile__wrapper.css);
@@ -39,3 +42,13 @@
 
 /* Импорт footer */
 @import url(../blocks/footer/__copyrigth/footer__copyrigth.css);
+
+/* Импорт popup */
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__heading/popup__heading.css);
+@import url(../blocks/popup/__fieldset/popup__fieldset.css);
+@import url(../blocks/popup/__name/popup__name.css);
+@import url(../blocks/popup/__btn-close/popup__btn-close.css);
+@import url(../blocks/popup/__btn-save/popup__btn-save.css);
+@import url(../blocks/popup/_show/popup_show.css);
