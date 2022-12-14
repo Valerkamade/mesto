@@ -5,7 +5,7 @@
 }
 
 @media (min-width: 880px) {
-.popup__fieldset {
-  margin-bottom: 31px;
-}
+  .popup__fieldset {
+    margin-bottom: 31px;
+  }
 }

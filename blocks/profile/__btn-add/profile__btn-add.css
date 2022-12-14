@@ -6,8 +6,8 @@
   height: 50px;
   border: 2px solid var(--color-second);
   border-radius: 2px;
-  background: url("../../../images/icon-add.svg") center / 16px 16px no-repeat;
-  }
+  background: url('../../../images/icon-add.svg') center / 16px 16px no-repeat;
+}
 
 @media (min-width: 880px) {
   .profile__btn-add {
