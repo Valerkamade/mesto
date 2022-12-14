@@ -1,0 +1,9 @@
+.btn {
+  cursor: pointer;
+}
+
+@media (min-width: 880px) {
+  .btn:hover {
+    opacity: 0.6;
+  }
+}

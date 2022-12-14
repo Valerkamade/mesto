@@ -1,0 +1,12 @@
+.profile__btn-edit {
+  border: 1px solid var(--color-second);
+  background: url("../../../images/icon-edit.svg") center / 7.5px 7.5px no-repeat;
+  padding: 8px;
+}
+
+@media (min-width: 880px) {
+  .profile__btn-edit {
+    background-size: 10px 10px;
+    padding: 11px;
+  }
+}
