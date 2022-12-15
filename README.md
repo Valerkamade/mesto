@@ -1,17 +1,36 @@
 # Проект: Место
 
+## Данная работа выполнена в рамках обучения в **Яндекс Практикум** на специальности "Веб-разработчик".
+
+
 ### Обзор
 
-* Figma
-* Картинки
+На основании макета  ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) была реализована страница соц. сети Mesto Russia:
 
-**Figma**
+* сверстана страница, модальное окно редактирования профиля ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ;
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+* прописаны стили для мобильной и декстопной версии (адаптив), внешний вид модального окна  ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ;
 
-**Картинки**
+* реализовано открытие, закрытие и изменение данных профиля (без сохранения данных на сервере) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E):
 
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
+* реализована кросплатформенность
+![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
+![Firefox](https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)
+![Yandex Browers](https://i.postimg.cc/7LMSdpTM/YAndeks-Brauzer-02.png).
 
-Удачи!
+## **Посмотреть что получилось можно [здесь](https://russian-travel.valerkamade.ru/)**
+
+---
+---
+
+### *В планах**:
+* поставить/удалить лайк;
+* счетчик лайков;
+* добавление/удаление карточек;
+* задний фон не прокручивается при открытом модальном окне;
+* смена аватара.
+
+*Что-то будет реализовано в рамках следующих работ, что-то самостоятельно.*
+
+*список будет доробатываться и перерабатываться.
+
