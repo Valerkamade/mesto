@@ -2,8 +2,8 @@ const popup = document.querySelector('.popup'); //Поиск попапа
 const form = popup.querySelector('.popup__form'); //Поиск формы
 const buttonEdit = document.querySelector('.profile__button-edit'); //Поиск кнопки редактирования профиля
 const popupClose = popup.querySelector('.popup__button-close'); //Поиск кнопки закрытия попапа
-let nameInput = popup.querySelector('.popup__inpet_type_name'); //Поиск поля формы имя попапа
-let jobInput = popup.querySelector('.popup__inpet_type_job'); //Поиск поля формы работа попапа
+let nameInput = popup.querySelector('.popup__input_type_name'); //Поиск поля формы имя попапа
+let jobInput = popup.querySelector('.popup__input_type_job'); //Поиск поля формы работа попапа
 let profileName = document.querySelector('.profile__name'); //Поиск данных имени
 let profileJob = document.querySelector('.profile__job'); //Поиск данных работы
 
