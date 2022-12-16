@@ -20,7 +20,7 @@
         <div class="profile__wrapper">
           <div class="profile__name-edit">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button class="profile__btn-edit btn"
+            <button class="profile__button-edit button"
               type="button"
               aria-label="Изменить профиль">
             </button>
@@ -30,7 +30,7 @@
         <img class="profile__avatar"
           src="./images/avatar.jpg"
           alt="Фото профиля.">
-        <button class="profile__btn-add btn"
+        <button class="profile__button-add button"
           type="button"
           aria-label="Добавить место">
         </button>
@@ -41,7 +41,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Карачаевск</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -52,7 +52,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Гора Эльбрус</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -63,7 +63,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Домбай</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -74,7 +74,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Гора Эльбрус</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -85,7 +85,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Домбай</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -97,7 +97,7 @@
           <li class="gallery__item">
             <div class="gallery__info">
               <h2 class="gallery__title">Карачаево-Черкессия</h2>
-              <button class="gallery__btn-like btn"
+              <button class="gallery__button-like button"
                 type="button">
               </button>
             </div>
@@ -110,34 +110,35 @@
     </main>
 
     <footer class="footer">
-      <p class="footer__copyrigth">&copy; 2020 Mesto Russia</p>
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <section class="popup"
-      aria-label="Форма редактирования профиля">
-      <form class="popup__container"
-
-        method="post">
-        <fieldset class="popup__fieldset">
-          <legend class="popup__heading">Редактировать профиль</legend>
-          <input class="popup__name input"
+    <div class="popup">
+      <div class="popup__container">
+        <h2 class="popup__heading">Редактировать профиль</h2>
+        <form class="popup__form"
+          method="post"
+          name="profile">
+          <input class="popup__input popup__inpet_type_name"
             type="text"
-            name="name">
-          <input class="popup__job input"
+            name="name"
+            required>
+          <input class="popup__input popup__inpet_type_job"
             type="text"
-            name="job">
-        </fieldset>
-        <button class="popup__btn-save btn"
-          type="submit">
-          Сохранить
-        </button>
-        <button class="popup__btn-close btn"
+            name="job"
+            required>
+          <button class="popup__button-save button"
+            type="submit">
+            Сохранить
+          </button>
+        </form>
+        <button class="popup__button-close button"
           type="button"
           aria-label="Закрыть">
         </button>
-      </form>
-    </section>
+      </div>
+    </div>
 
-    <script src="./script/index.js"></script>
+    <script src="./scripts/index.js"></script>
   </body>
 </html>

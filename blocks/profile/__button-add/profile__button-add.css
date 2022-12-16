@@ -1,4 +1,4 @@
-.profile__btn-add {
+.profile__button-add {
   display: block;
   order: 2;
   max-width: 282px;
@@ -10,7 +10,7 @@
 }
 
 @media (min-width: 880px) {
-  .profile__btn-add {
+  .profile__button-add {
     max-width: 150px;
     background-size: 22px 22px;
   }

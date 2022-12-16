@@ -1,9 +1,9 @@
 .page__gallery {
-  margin: 0 auto 48px;
+  margin: 0 auto 50px;
 }
 
 @media (min-width: 880px) {
   .page__gallery {
-    margin-bottom: 66px;
+    margin-bottom: 68px;
   }
 }

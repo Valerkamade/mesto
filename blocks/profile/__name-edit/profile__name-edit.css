@@ -1,6 +1,6 @@
 .profile__name-edit {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   gap: 10px;
 
@@ -13,7 +13,6 @@
 
 @media (min-width: 880px) {
   .profile__name-edit {
-    margin-bottom: 16px;
     gap: 18px;
     justify-content: start;
   }

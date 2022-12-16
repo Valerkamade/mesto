@@ -1,8 +1,9 @@
 const popup = document.querySelector('.popup'); //Поиск попапа
-const btnEdit = document.querySelector('.profile__btn-edit'); //Поиск кнопки редактирования профиля
-const popupClose = popup.querySelector('.popup__btn-close'); //Поиск кнопки закрытия попапа
-let nameInput = popup.querySelector('.popup__name'); //Поиск поля формы имя попапа
-let jobInput = popup.querySelector('.popup__job'); //Поиск поля формы работа попапа
+const form = popup.querySelector('.popup__form'); //Поиск формы
+const buttonEdit = document.querySelector('.profile__button-edit'); //Поиск кнопки редактирования профиля
+const popupClose = popup.querySelector('.popup__button-close'); //Поиск кнопки закрытия попапа
+let nameInput = popup.querySelector('.popup__inpet_type_name'); //Поиск поля формы имя попапа
+let jobInput = popup.querySelector('.popup__inpet_type_job'); //Поиск поля формы работа попапа
 let profileName = document.querySelector('.profile__name'); //Поиск данных имени
 let profileJob = document.querySelector('.profile__job'); //Поиск данных работы
 
@@ -13,10 +14,8 @@ const formOpen = function () {
   popup.classList.add('popup_opened');
 };
 
-//Функция закрытия попапа, подтягивает имя и работу с полей профиля в форму без сохранения изменений
+//Функция закрытия попапа без сохранения изменений
 const formClose = function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
   popup.classList.remove('popup_opened');
 };
 
@@ -29,6 +28,6 @@ const formSubmitHandler = function (evt) {
 };
 
 //Слушатели событий
-btnEdit.addEventListener('click', formOpen);
+buttonEdit.addEventListener('click', formOpen);
 popupClose.addEventListener('click', formClose);
-popup.addEventListener('submit', formSubmitHandler);
+form.addEventListener('submit', formSubmitHandler);
