@@ -6,4 +6,7 @@
   bottom: 0;
   right: 0;
   background-color: var(--color-main-50);
+
+  justify-content: center;
+  align-items: center;
 }
