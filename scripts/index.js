@@ -31,3 +31,21 @@ const formSubmitHandler = function (evt) {
 buttonEdit.addEventListener('click', formOpen);
 popupClose.addEventListener('click', formClose);
 form.addEventListener('submit', formSubmitHandler);
+
+
+//Попапа добавления карточки
+const popupCard = document.querySelector('.popup_type_place');
+const formCard = popupCard.querySelector('.popup__form_type_place');
+const buttonAdd = document.querySelector('.profile__button-add');
+const popupCloseCard = popupCard.querySelector('.popup__button-close');
+
+const formOpenCard = function () {
+  popupCard.classList.add('popup_opened');
+};
+
+const formCloseCard = function () {
+  popupCard.classList.remove('popup_opened');
+};
+
+buttonAdd.addEventListener('click', formOpenCard);
+popupCloseCard.addEventListener('click', formCloseCard);

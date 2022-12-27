@@ -113,7 +113,7 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
         <h2 class="popup__heading">Редактировать профиль</h2>
         <form class="popup__form"
@@ -130,6 +130,34 @@
           <button class="popup__button-save button"
             type="submit">
             Сохранить
+          </button>
+        </form>
+        <button class="popup__button-close button"
+          type="button"
+          aria-label="Закрыть">
+        </button>
+      </div>
+    </div>
+
+    <div class="popup popup_type_place">
+      <div class="popup__container">
+        <h2 class="popup__heading">Новое место</h2>
+        <form class="popup__form popup__form_type_place"
+          method="post"
+          name="place">
+          <input class="popup__input popup__input_type_title"
+            type="text"
+            name="title"
+            placeholder="Название"
+            required>
+          <input class="popup__input popup__input_type_link"
+            type="text"
+            name="link"
+            placeholder="Ссылка на картинку"
+            required>
+          <button class="popup__button-save button"
+            type="submit">
+            Создать
           </button>
         </form>
         <button class="popup__button-close button"
