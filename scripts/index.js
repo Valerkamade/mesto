@@ -32,22 +32,6 @@ buttonEdit.addEventListener('click', formOpen);
 popupClose.addEventListener('click', formClose);
 form.addEventListener('submit', formSubmitHandler);
 
-//Попапа добавления карточки
-const popupCard = document.querySelector('.popup_type_place');
-const formCard = popupCard.querySelector('.popup__form_type_place');
-const buttonAdd = document.querySelector('.profile__button-add');
-const popupCloseCard = popupCard.querySelector('.popup__button-close');
-
-const formOpenCard = function () {
-  popupCard.classList.add('popup_opened');
-};
-
-const formCloseCard = function () {
-  popupCard.classList.remove('popup_opened');
-};
-
-buttonAdd.addEventListener('click', formOpenCard);
-popupCloseCard.addEventListener('click', formCloseCard);
 
 
 // Карточки из коробки
@@ -96,3 +80,39 @@ initialCards.forEach(function (element) {
   cardElement.querySelector('.gallery__photo').alt = element.alt;
   gallerysList.append(cardElement);
 });
+
+
+//Попапа добавления карточки
+const popupCard = document.querySelector('.popup_type_place');
+const formCard = popupCard.querySelector('.popup__form_type_place');
+const buttonAdd = document.querySelector('.profile__button-add');
+const popupCloseCard = popupCard.querySelector('.popup__button-close');
+
+const formOpenCard = function () {
+  popupCard.classList.add('popup_opened');
+};
+
+const formCloseCard = function () {
+  popupCard.classList.remove('popup_opened');
+};
+
+buttonAdd.addEventListener('click', formOpenCard);
+popupCloseCard.addEventListener('click', formCloseCard);
+
+
+// Добавление карточек
+const titleInput = popupCard.querySelector('.popup__input_type_title');
+const linkInput = popupCard.querySelector('.popup__input_type_link');
+
+const addCard = function (evt) {
+  evt.preventDefault();
+  const cardElement = cardTemplate.cloneNode(true);
+  cardElement.querySelector('.gallery__title').textContent = titleInput.value;
+  cardElement.querySelector('.gallery__photo').src = linkInput.value;
+  gallerysList.prepend(cardElement);
+
+  formCloseCard();
+  formCard.reset();
+};
+
+formCard.addEventListener('submit', addCard);
