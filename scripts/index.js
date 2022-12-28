@@ -32,7 +32,6 @@ buttonEdit.addEventListener('click', formOpen);
 popupClose.addEventListener('click', formClose);
 form.addEventListener('submit', formSubmitHandler);
 
-
 //Попапа добавления карточки
 const popupCard = document.querySelector('.popup_type_place');
 const formCard = popupCard.querySelector('.popup__form_type_place');
@@ -49,3 +48,51 @@ const formCloseCard = function () {
 
 buttonAdd.addEventListener('click', formOpenCard);
 popupCloseCard.addEventListener('click', formCloseCard);
+
+
+// Карточки из коробки
+const initialCards = [
+  //Массив данных для генерации карточек
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+    alt: 'Долина с водоемом на фоне зеленых горю',
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+    alt: 'Вид с берега водоема на другой берег зимой.',
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+    alt: 'Вид на многоэтажеки в перспективе.',
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+    alt: 'Травянистая земля на фоне горы.',
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+    alt: 'Однокалейная железная дорога уходящая к горизонту посреди леса.',
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+    alt: 'Лес, горы и немного озера.',
+  },
+];
+const gallerysList = document.querySelector('.gallery__list'); //Поиск списка, куда будут вставлятся карточки
+const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
+
+//Генерация карточек из массива
+initialCards.forEach(function (element) {
+  const cardElement = cardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.gallery__title').textContent = element.name;
+  cardElement.querySelector('.gallery__photo').src = element.link;
+  cardElement.querySelector('.gallery__photo').alt = element.alt;
+  gallerysList.append(cardElement);
+});
