@@ -113,10 +113,18 @@ const addCard = function (evt) {
   cardElement.querySelector('.gallery__title').textContent = titleInput.value;
   cardElement.querySelector('.gallery__photo').src = linkInput.value;
 
-  const likeButton = cardTemplate.querySelector('.gallery__button-like');
-  cardElement.querySelector('.gallery__button-like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('gallery__button-like_active');
-  });
+  cardElement
+    .querySelector('.gallery__button-like')
+    .addEventListener('click', function (evt) {
+      evt.target.classList.toggle('gallery__button-like_active');
+    });
+
+  cardElement
+    .querySelector('.gallery__button-trash')
+    .addEventListener('click', function (evt) {
+      const listItem = evt.target.closest('.gallery__item');
+      listItem.remove();
+    });
 
   gallerysList.prepend(cardElement);
 
@@ -133,8 +141,17 @@ const likeButton = gallerysList.querySelectorAll('.gallery__button-like');
 // });
 
 likeButton.forEach(function (element) {
-
   element.addEventListener('click', function (evt) {
     evt.target.classList.toggle('gallery__button-like_active');
+  });
+});
+
+// Удаление карточки
+const trashButton = document.querySelectorAll('.gallery__button-trash');
+
+trashButton.forEach(function (element) {
+  element.addEventListener('click', function (evt) {
+    const listItem = evt.target.closest('.gallery__item');
+    listItem.remove();
   });
 });
