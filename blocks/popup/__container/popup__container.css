@@ -9,6 +9,7 @@
   -o-border-radius: 10px;
   box-sizing: border-box;
   padding: 25px 22px;
+  
 }
 
 @media (min-width: 880px) {

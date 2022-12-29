@@ -126,6 +126,18 @@ const addCard = function (evt) {
       listItem.remove();
     });
 
+  cardElement
+    .querySelector('.gallery__photo')
+    .addEventListener('click', function (evt) {
+      evt.target;
+      formOpenPhoto();
+
+      popupPhoto.querySelector('.popup__title').textContent =
+        evt.target.closest('.gallery__item').textContent;
+      popupPhoto.querySelector('.popup__photo').src = evt.target.src;
+      popupPhoto.querySelector('.popup__photo').alt = evt.target.alt;
+    });
+
   gallerysList.prepend(cardElement);
 
   formCloseCard();
@@ -136,15 +148,13 @@ formCard.addEventListener('submit', addCard);
 
 // Лйки карточек
 const likeButton = gallerysList.querySelectorAll('.gallery__button-like');
-// likeButton.addEventListener('click', function (evt) {
-//   evt.target.classList.toggle('gallery__button-like_active');
-// });
 
 likeButton.forEach(function (element) {
   element.addEventListener('click', function (evt) {
     evt.target.classList.toggle('gallery__button-like_active');
   });
 });
+
 
 // Удаление карточки
 const trashButton = document.querySelectorAll('.gallery__button-trash');
@@ -155,3 +165,33 @@ trashButton.forEach(function (element) {
     listItem.remove();
   });
 });
+
+// Открытие попапа с картинкой
+const listPhoto = gallerysList.querySelectorAll('.gallery__photo');
+const popupPhoto = document.querySelector('.popup_type_img');
+const popupClosePhoto = popupPhoto.querySelector('.popup__button-close'); //Поиск кнопки закрыть этого поапап
+
+// Функция открытия попапа
+const formOpenPhoto = function () {
+  popupPhoto.classList.add('popup_opened');
+};
+
+// Функция закрытия поапа
+const formClosePhoto = function () {
+  popupPhoto.classList.remove('popup_opened');
+};
+
+listPhoto.forEach(function (element) {
+  element.addEventListener('click', function (evt) {
+    evt.target;
+    formOpenPhoto();
+
+    popupPhoto.querySelector('.popup__title').textContent =
+      evt.target.closest('.gallery__item').textContent;
+    popupPhoto.querySelector('.popup__photo').src = element.src;
+    popupPhoto.querySelector('.popup__photo').alt = element.alt;
+  });
+});
+
+popupClosePhoto.addEventListener('click', formClosePhoto);
+
