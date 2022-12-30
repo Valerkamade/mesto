@@ -1,0 +1,14 @@
+@keyframes close {
+  0% {
+   opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.popup_animation_close {
+  animation: close 0.8s ease-in-out;
+  -webkit-animation: close 0.8s ease-in-out;
+}

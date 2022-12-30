@@ -7,16 +7,36 @@ let jobInput = popup.querySelector('.popup__input_type_job'); //Поиск по�
 let profileName = document.querySelector('.profile__name'); //Поиск данных имени
 let profileJob = document.querySelector('.profile__job'); //Поиск данных работы
 
+const cleenPhoto = function () {
+  popupPhoto.classList.remove('popup_animation_show');
+  popupPhoto.classList.remove('popup_animation_close');
+  popupPhoto.classList.remove('popup_opened');
+};
+
+const cleen = function () {
+  popup.classList.remove('popup_animation_show');
+  popup.classList.remove('popup_animation_close');
+  popup.classList.remove('popup_opened');
+};
+
+const cleenCard = function () {
+  popupCard.classList.remove('popup_animation_show');
+  popupCard.classList.remove('popup_animation_close');
+  popupCard.classList.remove('popup_opened');
+};
+
 //Функция отрытия попапа, подтягивает имя и работу с полей профиля в форму
 const formOpen = function () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  popup.classList.add('popup_animation_show');
   popup.classList.add('popup_opened');
 };
 
 //Функция закрытия попапа без сохранения изменений
 const formClose = function () {
-  popup.classList.remove('popup_opened');
+  popup.classList.add('popup_animation_close');
+  setTimeout(cleen, 750);
 };
 
 //Функция сохранения изменений в полях формы и в профиле с закрытием окна
@@ -90,12 +110,14 @@ const popupCloseCard = popupCard.querySelector('.popup__button-close'); //Пои
 
 // Функция открытия попапа
 const formOpenCard = function () {
+  popupCard.classList.add('popup_animation_show');
   popupCard.classList.add('popup_opened');
 };
 
 // Функция закрытия поапа
 const formCloseCard = function () {
-  popupCard.classList.remove('popup_opened');
+  popupCard.classList.add('popup_animation_close');
+  setTimeout(cleenCard, 750);
 };
 
 // Слушатели
@@ -155,7 +177,6 @@ likeButton.forEach(function (element) {
   });
 });
 
-
 // Удаление карточки
 const trashButton = document.querySelectorAll('.gallery__button-trash');
 
@@ -173,12 +194,17 @@ const popupClosePhoto = popupPhoto.querySelector('.popup__button-close'); //По
 
 // Функция открытия попапа
 const formOpenPhoto = function () {
+  popupPhoto.classList.add('popup_animation_show');
   popupPhoto.classList.add('popup_opened');
+
 };
+
+
 
 // Функция закрытия поапа
 const formClosePhoto = function () {
-  popupPhoto.classList.remove('popup_opened');
+  popupPhoto.classList.add('popup_animation_close');
+  setTimeout(cleenPhoto, 750);
 };
 
 listPhoto.forEach(function (element) {
@@ -194,4 +220,3 @@ listPhoto.forEach(function (element) {
 });
 
 popupClosePhoto.addEventListener('click', formClosePhoto);
-

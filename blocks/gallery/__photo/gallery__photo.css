@@ -1,8 +1,6 @@
 .gallery__photo {
   display: block;
-  width: 282px;
-  height: 282px;
   object-fit: cover;
-  
+  aspect-ratio: 1;
   cursor: pointer;
 }
