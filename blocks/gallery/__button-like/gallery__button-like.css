@@ -9,3 +9,8 @@
 .gallery__button-like:hover {
   opacity: 0.5;
 }
+
+.gallery__button-like:active,
+.gallery__button-like:focus {
+  opacity: 1;
+}

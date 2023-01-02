@@ -53,8 +53,3 @@
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/_type/popup_type_img.css);
 @import url(../blocks/popup/__photo/popup__photo.css);
-
-
-/* Импорт анимации */
-@import url(../blocks/popup/_animation/popup_animation_show.css);
-@import url(../blocks/popup/_animation/popup_animation_close.css);

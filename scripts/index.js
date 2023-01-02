@@ -1,60 +1,33 @@
-const popup = document.querySelector('.popup'); //Поиск попапа
+const popup = document.querySelector('.popup'); //Поиск любого попапа
+const popups = document.querySelectorAll('.popup'); // Поиск всех поапов
+const popupEdit = document.querySelector('.popup_type_profile'); //Поиск попапа профиля
+const popupCard = document.querySelector('.popup_type_place'); //Поиск поапа добавления карточки
+const popupPhoto = document.querySelector('.popup_type_img'); //Поиск поапапросмотра картинки
+
 const form = popup.querySelector('.popup__form'); //Поиск формы
+const formCard = popupCard.querySelector('.popup__form_type_place'); //Поиск формы в попапе профиля
+
+const gallerysList = document.querySelector('.gallery__list'); //Поиск списка, куда будут вставлятся карточки
+const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
+
+const closeButtons = document.querySelectorAll('.popup__button-close'); //Поиск всех кнопок закрытия в этих попапах
 const buttonEdit = document.querySelector('.profile__button-edit'); //Поиск кнопки редактирования профиля
-const popupClose = popup.querySelector('.popup__button-close'); //Поиск кнопки закрытия попапа
+const buttonAdd = document.querySelector('.profile__button-add'); //Поиск кнопки Создать этого поапа
+
+const titleInput = popupCard.querySelector('.popup__input_type_title'); //Поиск поля формы title
+const linkInput = popupCard.querySelector('.popup__input_type_link'); //Поиск поля формы link
+const elementPopupPhoto = popupPhoto.querySelector('.popup__photo');
+const elementPopupTitle = popupPhoto.querySelector('.popup__title');
+
 let nameInput = popup.querySelector('.popup__input_type_name'); //Поиск поля формы имя попапа
 let jobInput = popup.querySelector('.popup__input_type_job'); //Поиск поля формы работа попапа
 let profileName = document.querySelector('.profile__name'); //Поиск данных имени
 let profileJob = document.querySelector('.profile__job'); //Поиск данных работы
 
-const cleenPhoto = function () {
-  popupPhoto.classList.remove('popup_animation_show');
-  popupPhoto.classList.remove('popup_animation_close');
-  popupPhoto.classList.remove('popup_opened');
-};
+const openPopupButtons = [buttonEdit, buttonAdd]; //Массив кнопок на странице
 
-const cleen = function () {
-  popup.classList.remove('popup_animation_show');
-  popup.classList.remove('popup_animation_close');
-  popup.classList.remove('popup_opened');
-};
-
-const cleenCard = function () {
-  popupCard.classList.remove('popup_animation_show');
-  popupCard.classList.remove('popup_animation_close');
-  popupCard.classList.remove('popup_opened');
-};
-
-//Функция отрытия попапа, подтягивает имя и работу с полей профиля в форму
-const formOpen = function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  popup.classList.add('popup_animation_show');
-  popup.classList.add('popup_opened');
-};
-
-//Функция закрытия попапа без сохранения изменений
-const formClose = function () {
-  popup.classList.add('popup_animation_close');
-  setTimeout(cleen, 750);
-};
-
-//Функция сохранения изменений в полях формы и в профиле с закрытием окна
-const formSubmitHandler = function (evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  formClose();
-};
-
-//Слушатели событий
-buttonEdit.addEventListener('click', formOpen);
-popupClose.addEventListener('click', formClose);
-form.addEventListener('submit', formSubmitHandler);
-
-// Карточки из коробки
+//Массив данных для генерации карточек
 const initialCards = [
-  //Массив данных для генерации карточек
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
@@ -86,137 +59,110 @@ const initialCards = [
     alt: 'Лес, горы и немного озера.',
   },
 ];
-const gallerysList = document.querySelector('.gallery__list'); //Поиск списка, куда будут вставлятся карточки
-const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
 
 //Генерация карточек из массива
-initialCards.forEach(function (element) {
+const addCards = (element) => {
   const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из template
-
-  // Внесение данных в разметку из массива
+  const cardPhoto = cardElement.querySelector('.gallery__photo');
+  //Внесение данных в разметку из массива
   cardElement.querySelector('.gallery__title').textContent = element.name;
-  cardElement.querySelector('.gallery__photo').src = element.link;
-  cardElement.querySelector('.gallery__photo').alt = element.alt;
+  cardPhoto.src = element.link;
+  cardPhoto.alt = element.alt;
 
-  // Добавление карточки в конец списка
-  gallerysList.append(cardElement);
+  gallerysList.append(cardElement); //Добавление карточки в конец списка
+};
+
+initialCards.forEach(addCards); //Создать карточки при загрузке из массива
+
+//Функция открытия попапа
+const openPopup = (popupElement) => {
+  popupElement.classList.add('popup_opened');
+};
+
+//Функция закрытия поапа
+const closePopup = (popupElement) => {
+  popupElement.classList.remove('popup_opened');
+};
+
+//Закрытие поапов по кнопке крестик
+closeButtons.forEach((element) => {
+  element.addEventListener('click', (evt) => {
+    const popupItem = evt.target.closest('.popup');
+    closePopup(popupItem);
+  });
 });
 
-//Попапа добавления карточки
-const popupCard = document.querySelector('.popup_type_place'); // Поиск попапа добавления карточек
-const formCard = popupCard.querySelector('.popup__form_type_place'); //Поиск формы в попапе
-const buttonAdd = document.querySelector('.profile__button-add'); //Поиск кнопки Создать этого поапа
-const popupCloseCard = popupCard.querySelector('.popup__button-close'); //Поиск кнопки закрыть этого поапап
-
-// Функция открытия попапа
-const formOpenCard = function () {
-  popupCard.classList.add('popup_animation_show');
-  popupCard.classList.add('popup_opened');
-};
-
-// Функция закрытия поапа
-const formCloseCard = function () {
-  popupCard.classList.add('popup_animation_close');
-  setTimeout(cleenCard, 750);
-};
-
-// Слушатели
-buttonAdd.addEventListener('click', formOpenCard);
-popupCloseCard.addEventListener('click', formCloseCard);
-
-// Добавление карточек
-const titleInput = popupCard.querySelector('.popup__input_type_title'); // Поиск поля формы title
-const linkInput = popupCard.querySelector('.popup__input_type_link'); // Поиск поля формы link
-
-//
-const addCard = function (evt) {
-  evt.preventDefault();
-  const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из template
-  cardElement.querySelector('.gallery__title').textContent = titleInput.value;
-  cardElement.querySelector('.gallery__photo').src = linkInput.value;
-
-  cardElement
-    .querySelector('.gallery__button-like')
-    .addEventListener('click', function (evt) {
-      evt.target.classList.toggle('gallery__button-like_active');
-    });
-
-  cardElement
-    .querySelector('.gallery__button-trash')
-    .addEventListener('click', function (evt) {
-      const listItem = evt.target.closest('.gallery__item');
-      listItem.remove();
-    });
-
-  cardElement
-    .querySelector('.gallery__photo')
-    .addEventListener('click', function (evt) {
-      evt.target;
-      formOpenPhoto();
-
-      popupPhoto.querySelector('.popup__title').textContent =
+const open = (element) => {
+  element.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    if (evt.target === buttonEdit) {
+      openPopup(popupEdit);
+      nameInput.value = profileName.textContent;
+      jobInput.value = profileJob.textContent;
+    } else if (evt.target === buttonAdd) {
+      openPopup(popupCard);
+    } else {
+      openPopup(popupPhoto);
+      elementPopupTitle.textContent =
         evt.target.closest('.gallery__item').textContent;
-      popupPhoto.querySelector('.popup__photo').src = evt.target.src;
-      popupPhoto.querySelector('.popup__photo').alt = evt.target.alt;
-    });
-
-  gallerysList.prepend(cardElement);
-
-  formCloseCard();
-  formCard.reset();
+      elementPopupPhoto.src = element.src;
+      elementPopupPhoto.alt = element.alt;
+    }
+  });
 };
 
-formCard.addEventListener('submit', addCard);
+//Функция сохранения изменений в полях формы и в профиле с закрытием окна
+const formSubmitHandler = (evt) => {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+  closePopup(popupEdit);
+};
 
-// Лйки карточек
-const likeButton = gallerysList.querySelectorAll('.gallery__button-like');
+const listPhotos = gallerysList.querySelectorAll('.gallery__photo'); //Поиск фото в галереии
+const likeButtons = gallerysList.querySelectorAll('.gallery__button-like'); //Поиск кнопок лайк в галерее
+const trashButtons = gallerysList.querySelectorAll('.gallery__button-trash'); //Поиск кнопок удалить в галерее
 
-likeButton.forEach(function (element) {
-  element.addEventListener('click', function (evt) {
+//Лйки карточек
+const addLike = (element) => {
+  element.addEventListener('click', (evt) => {
     evt.target.classList.toggle('gallery__button-like_active');
   });
-});
-
-// Удаление карточки
-const trashButton = document.querySelectorAll('.gallery__button-trash');
-
-trashButton.forEach(function (element) {
-  element.addEventListener('click', function (evt) {
-    const listItem = evt.target.closest('.gallery__item');
-    listItem.remove();
-  });
-});
-
-// Открытие попапа с картинкой
-const listPhoto = gallerysList.querySelectorAll('.gallery__photo');
-const popupPhoto = document.querySelector('.popup_type_img');
-const popupClosePhoto = popupPhoto.querySelector('.popup__button-close'); //Поиск кнопки закрыть этого поапап
-
-// Функция открытия попапа
-const formOpenPhoto = function () {
-  popupPhoto.classList.add('popup_animation_show');
-  popupPhoto.classList.add('popup_opened');
-
 };
 
-
-
-// Функция закрытия поапа
-const formClosePhoto = function () {
-  popupPhoto.classList.add('popup_animation_close');
-  setTimeout(cleenPhoto, 750);
+//Удаление карточки
+const deletCard = (element) => {
+  element.addEventListener('click', (evt) => {
+    const listItem = evt.target.closest('.gallery__item'); //Выбрать карточку по нажатию на фото
+    listItem.remove(); //Удалить карточку
+  });
 };
 
-listPhoto.forEach(function (element) {
-  element.addEventListener('click', function (evt) {
-    evt.target;
-    formOpenPhoto();
+//Функция добавления картоочки
+const addCard = (evt) => {
+  evt.preventDefault(); //Сбросить отправку формы
+  const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из template
+  const cardPhoto = cardElement.querySelector('.gallery__photo'); //Поиск изображения карточки
+  const likeButton = cardElement.querySelector('.gallery__button-like'); //Поиск кнопки лайк карточки
+  const trashButton = cardElement.querySelector('.gallery__button-trash'); //Поиск кнопки удалить карточки
+  const cardTitle = cardElement.querySelector('.gallery__title'); //Поиск заголовка карточки
 
-    popupPhoto.querySelector('.popup__title').textContent =
-      evt.target.closest('.gallery__item').textContent;
-    popupPhoto.querySelector('.popup__photo').src = element.src;
-    popupPhoto.querySelector('.popup__photo').alt = element.alt;
-  });
-});
+  cardTitle.textContent = titleInput.value; //Присвоить заголоаок карточке из формы
+  cardPhoto.src = linkInput.value; //Присвомит адрес картинке карточки из формы
+  addLike(likeButton); //Добавить и убрать лайк на добавленную карточку
+  deletCard(trashButton); //Удалить добавленную карточку
+  open(cardPhoto); //Открыть попап добавленной карточки
+  gallerysList.prepend(cardElement); //Вставить карточку в начало
+  closePopup(popupCard); //Закрыть поапа добавленной карточки
+  formCard.reset(); //Очистить форму
+};
 
-popupClosePhoto.addEventListener('click', formClosePhoto);
+//Слушатели событий
+form.addEventListener('submit', formSubmitHandler); //Слушатель события submit формы
+formCard.addEventListener('submit', addCard); //Слушатель события submit формы добавления карт
+
+//Перебор псевдомассивов
+listPhotos.forEach(open); //Открыть поап по клику на картинку
+openPopupButtons.forEach(open); //Открыть попап по клику на кнопки редактиировать и добавить
+likeButtons.forEach(addLike); //Поставить и убрать лайк
+trashButtons.forEach(deletCard); //Удалить карточку
