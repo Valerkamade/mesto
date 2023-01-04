@@ -1,25 +1,25 @@
 const popupProfile = document.querySelector('.popup_type_profile'); //Поиск попапа профиля
 const popupCard = document.querySelector('.popup_type_place'); //Поиск поапа добавления карточки
 const popupPhoto = document.querySelector('.popup_type_img'); //Поиск поапа просмотра картинки
-const elementPopupPhoto = popupPhoto.querySelector('.popup__photo'); //Поиск картинки попапа
-const elementPopupTitle = popupPhoto.querySelector('.popup__title'); //Поиск заголовка поапа
 
 const formProfile = popupProfile.querySelector('.popup__form_type_profile'); //Поиск формы профиля
 const formCard = popupCard.querySelector('.popup__form_type_place'); //Поиск формы добавления карточки
+const elementPopupPhoto = popupPhoto.querySelector('.popup__photo'); //Поиск картинки попапа
+const elementPopupTitle = popupPhoto.querySelector('.popup__title'); //Поиск заголовка поапа
 
-const listGallery = document.querySelector('.gallery__list'); //Поиск списка, куда будут вставлятся карточки
-const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
-
-const closeButtons = document.querySelectorAll('.popup__button-close'); //Поиск всех кнопок закрытия в этих попапах
-const buttonEdit = document.querySelector('.profile__button-edit'); //Поиск кнопки редактирования профиля
-const buttonAdd = document.querySelector('.profile__button-add'); //Поиск кнопки добавления карточки
+const profileName = document.querySelector('.profile__name'); //Поиск данных имени
+const profileJob = document.querySelector('.profile__job'); //Поиск данных работы
 
 const titleInput = formCard.querySelector('.popup__input_type_title'); //Поиск поля формы title
 const linkInput = formCard.querySelector('.popup__input_type_link'); //Поиск поля формы link
 const inputName = formProfile.querySelector('.popup__input_type_name'); //Поиск поля формы имя попапа
 const inputJob = formProfile.querySelector('.popup__input_type_job'); //Поиск поля формы работа попапа
-const profileName = document.querySelector('.profile__name'); //Поиск данных имени
-const profileJob = document.querySelector('.profile__job'); //Поиск данных работы
+
+const listGallery = document.querySelector('.gallery__list'); //Поиск списка, куда будут вставлятся карточки
+
+const closeButtons = document.querySelectorAll('.popup__button-close'); //Поиск всех кнопок закрытия в этих попапах
+const buttonEdit = document.querySelector('.profile__button-edit'); //Поиск кнопки редактирования профиля
+const buttonAdd = document.querySelector('.profile__button-add'); //Поиск кнопки добавления карточки
 
 //Функция открытия попапа
 const openPopup = (popupElement) => {
@@ -31,27 +31,7 @@ const closePopup = (popupElement) => {
   popupElement.classList.remove('popup_opened'); //Удаление класса открытия
 };
 
-//Закрытие поапов по кнопке крестик
-closeButtons.forEach((element) => {
-  element.addEventListener('click', (evt) => {
-    const popupItem = evt.target.closest('.popup');
-    closePopup(popupItem);
-  });
-});
-
-// Открытие попапа профиля с подтягиванием Имени и Вида деятельности
-buttonEdit.addEventListener('click', () => {
-  openPopup(popupProfile);
-  inputName.value = profileName.textContent;
-  inputJob.value = profileJob.textContent;
-});
-
-// Открытие попапа создания карточки
-buttonAdd.addEventListener('click', () => {
-  openPopup(popupCard);
-});
-
-// Функция открытия попапов с подтягиванием нужных параметров
+// Функция открытия попапа картинки с подтягиванием нужных параметров
 const openPopupPhoto = (element) => {
   element.addEventListener('click', (evt) => {
     openPopup(popupPhoto);
@@ -84,44 +64,60 @@ const setDeleteCardEventListener = (element) => {
   });
 };
 
-//Генерация карточек из массива
-const addCards = (element) => {
+// Функция создания карточки с приемом переменных
+const createCard = (name, link, alt) => {
+  const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
   const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из шаблона
   const cardPhoto = cardElement.querySelector('.gallery__photo'); //Поиск фото в шаблоне
   const cardTitle = cardElement.querySelector('.gallery__title'); //Поиск заголовка в шаблоне
   const likeButton = cardElement.querySelector('.gallery__button-like'); //Поиск кнопки лайк карточки
   const trashButton = cardElement.querySelector('.gallery__button-trash'); //Поиск кнопки удалить карточки
-  //Внесение данных в разметку из массива
-  cardTitle.textContent = element.name;
-  cardPhoto.src = element.link;
-  cardPhoto.alt = element.alt;
+
+  cardTitle.textContent = name; //Присвоить заголовку карточки значение переменной name
+  cardPhoto.src = link; // Присвоить ссылке на картинку значение переменно link
+  cardPhoto.alt = alt; // Присвоить описанию картинки значение переменно alt
+
   setToggleLikeEventListener(likeButton); //Добавить и убрать лайк на добавленную карточку
   setDeleteCardEventListener(trashButton); //Удалить добавленную карточку
   openPopupPhoto(cardPhoto); //Открыть попап добавленной карточки
-  listGallery.append(cardElement); //Добавление карточки в конец списка
+
+  return cardElement; // Вернуть готовую карточку
 };
 
-initialCards.forEach(addCards); //Создать карточки при загрузке из массива
+//Генерация карточек из массива
+initialCards.forEach((element) => {
+  listGallery.append(createCard(element.name, element.link, element.alt)); //Добавление карточки в конец списка
+});
 
 //Функция добавления картоочки
 const addCard = () => {
-  const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из template
-  const cardPhoto = cardElement.querySelector('.gallery__photo'); //Поиск изображения карточки
-  const likeButton = cardElement.querySelector('.gallery__button-like'); //Поиск кнопки лайк карточки
-  const trashButton = cardElement.querySelector('.gallery__button-trash'); //Поиск кнопки удалить карточки
-  const cardTitle = cardElement.querySelector('.gallery__title'); //Поиск заголовка карточки
-
-  cardTitle.textContent = titleInput.value; //Присвоить заголоаок карточке из формы
-  cardPhoto.src = linkInput.value; //Присвоить адрес картинке карточки из формы
-  cardPhoto.alt = titleInput.value; //Присвоить описание по заголовку пока нет графы описания
-  setToggleLikeEventListener(likeButton); //Добавить и убрать лайк на добавленную карточку
-  setDeleteCardEventListener(trashButton); //Удалить добавленную карточку
-  openPopupPhoto(cardPhoto); //Открыть попап добавленной карточки
-  listGallery.prepend(cardElement); //Вставить карточку в начало
-  closePopup(popupCard); //Закрыть поапа добавленной карточки
+  //Вставить карточку в начало списка
+  listGallery.prepend(
+    createCard(titleInput.value, linkInput.value, titleInput.value)
+  );
+  closePopup(popupCard); //Закрыть попап добавленной карточки
   formCard.reset(); //Очистить форму
 };
 
+//Закрытие поапов по кнопке крестик
+closeButtons.forEach((element) => {
+  element.addEventListener('click', (evt) => {
+    const popupItem = evt.target.closest('.popup');
+    closePopup(popupItem);
+  });
+});
+
+// Открытие попапа профиля с подтягиванием Имени и Вида деятельности
+buttonEdit.addEventListener('click', () => {
+  openPopup(popupProfile);
+  inputName.value = profileName.textContent;
+  inputJob.value = profileJob.textContent;
+});
+
+// Открытие попапа создания карточки
+buttonAdd.addEventListener('click', () => {
+  openPopup(popupCard);
+});
 
 // Слушатель отправки формы профиля
 formProfile.addEventListener('submit', (evt) => {

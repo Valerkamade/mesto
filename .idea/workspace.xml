@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00b5eb17-bbe9-43a2-8ecd-1032361fd239" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +17,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2JmcVDZUtRLECSnX7eugxn92kXd" />
   <component name="ProjectViewState">
@@ -60,6 +61,7 @@
       <workItem from="1672686722723" duration="469000" />
       <workItem from="1672687240732" duration="1408000" />
       <workItem from="1672749194645" duration="11000" />
+      <workItem from="1672817775435" duration="89000" />
     </task>
     <servers />
   </component>
