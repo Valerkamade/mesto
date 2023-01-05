@@ -1,6 +1,7 @@
 const popupProfile = document.querySelector('.popup_type_profile'); //Поиск попапа профиля
 const popupCard = document.querySelector('.popup_type_place'); //Поиск поапа добавления карточки
 const popupPhoto = document.querySelector('.popup_type_img'); //Поиск поапа просмотра картинки
+const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
 
 const formProfile = popupProfile.querySelector('.popup__form_type_profile'); //Поиск формы профиля
 const formCard = popupCard.querySelector('.popup__form_type_place'); //Поиск формы добавления карточки
@@ -32,7 +33,7 @@ const closePopup = (popupElement) => {
 };
 
 // Функция открытия попапа картинки с подтягиванием нужных параметров
-const openPopupPhoto = (element) => {
+const setOpenPhotoPopupEventListener = (element) => {
   element.addEventListener('click', (evt) => {
     openPopup(popupPhoto);
     elementPopupTitle.textContent =
@@ -66,7 +67,6 @@ const setDeleteCardEventListener = (element) => {
 
 // Функция создания карточки с приемом переменных
 const createCard = (name, link, alt) => {
-  const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
   const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из шаблона
   const cardPhoto = cardElement.querySelector('.gallery__photo'); //Поиск фото в шаблоне
   const cardTitle = cardElement.querySelector('.gallery__title'); //Поиск заголовка в шаблоне
@@ -79,7 +79,7 @@ const createCard = (name, link, alt) => {
 
   setToggleLikeEventListener(likeButton); //Добавить и убрать лайк на добавленную карточку
   setDeleteCardEventListener(trashButton); //Удалить добавленную карточку
-  openPopupPhoto(cardPhoto); //Открыть попап добавленной карточки
+  setOpenPhotoPopupEventListener(cardPhoto); //Открыть попап добавленной карточки
 
   return cardElement; // Вернуть готовую карточку
 };
