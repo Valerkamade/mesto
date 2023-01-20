@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00b5eb17-bbe9-43a2-8ecd-1032361fd239" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blocks/gallery/__button-like/gallery__button-like.css" beforeDir="false" afterPath="$PROJECT_DIR$/blocks/gallery/__button-like/gallery__button-like.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blocks/gallery/__info/gallery__info.css" beforeDir="false" afterPath="$PROJECT_DIR$/blocks/gallery/__info/gallery__info.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blocks/gallery/__item/gallery__item.css" beforeDir="false" afterPath="$PROJECT_DIR$/blocks/gallery/__item/gallery__item.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blocks/gallery/__photo/gallery__photo.css" beforeDir="false" afterPath="$PROJECT_DIR$/blocks/gallery/__photo/gallery__photo.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +66,7 @@
       <workItem from="1672687240732" duration="1408000" />
       <workItem from="1672749194645" duration="11000" />
       <workItem from="1672817775435" duration="89000" />
+      <workItem from="1674161163064" duration="2000" />
     </task>
     <servers />
   </component>
