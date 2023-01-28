@@ -65,17 +65,17 @@ const setDeleteCardEventListener = (element) => {
   });
 };
 
-// Функция создания карточки с приемом переменных
-const createCard = (name, link, alt) => {
+// Функция создания карточки с приемом объекта
+const createCard = (item) => {
   const cardElement = cardTemplate.cloneNode(true); //Клонирование разметки из шаблона
   const cardPhoto = cardElement.querySelector('.gallery__photo'); //Поиск фото в шаблоне
   const cardTitle = cardElement.querySelector('.gallery__title'); //Поиск заголовка в шаблоне
   const likeButton = cardElement.querySelector('.gallery__button-like'); //Поиск кнопки лайк карточки
   const trashButton = cardElement.querySelector('.gallery__button-trash'); //Поиск кнопки удалить карточки
 
-  cardTitle.textContent = name; //Присвоить заголовку карточки значение переменной name
-  cardPhoto.src = link; // Присвоить ссылке на картинку значение переменно link
-  cardPhoto.alt = alt; // Присвоить описанию картинки значение переменно alt
+  cardTitle.textContent = item.name; //Присвоить заголовку карточки значение свойства name
+  cardPhoto.src = item.link; // Присвоить ссылке на картинку значение ствойства link
+  cardPhoto.alt = item.alt; // Присвоить описанию картинки значение свойства alt
 
   setToggleLikeEventListener(likeButton); //Добавить и убрать лайк на добавленную карточку
   setDeleteCardEventListener(trashButton); //Удалить добавленную карточку
@@ -86,15 +86,20 @@ const createCard = (name, link, alt) => {
 
 //Генерация карточек из массива
 initialCards.forEach((element) => {
-  listGallery.append(createCard(element.name, element.link, element.alt)); //Добавление карточки в конец списка
+  listGallery.append(createCard(element)); //Добавление карточки в конец списка
 });
 
 //Функция добавления картоочки
-const addCard = () => {
+const addCard = (evt) => {
+  evt.preventDefault();
+  // Создать объект для функции создания карточки из полей формы
+  const newCardElement = {
+    name: titleInput.value,
+    link: linkInput.value,
+    alt: titleInput.value,
+  }
   //Вставить карточку в начало списка
-  listGallery.prepend(
-    createCard(titleInput.value, linkInput.value, titleInput.value)
-  );
+  listGallery.prepend(createCard(newCardElement));
   closePopup(popupCard); //Закрыть попап добавленной карточки
   formCard.reset(); //Очистить форму
 };
@@ -126,7 +131,4 @@ formProfile.addEventListener('submit', (evt) => {
 });
 
 // Слушатель отправки формы карточки
-formCard.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  addCard();
-});
+formCard.addEventListener('submit', addCard);
