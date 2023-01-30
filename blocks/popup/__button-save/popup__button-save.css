@@ -2,13 +2,14 @@
   width: 238px;
   color: var(--color-second);
   background-color: var(--color-main);
-  border: none;
+  border: 1px solid var(--color-main);
   padding: 15px 0;
   border-radius: 2px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
   -o-border-radius: 2px;
+  box-sizing: border-box;
 }
 
 .popup__button-save:hover {

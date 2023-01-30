@@ -74,20 +74,25 @@ const setClosePopupEventListener = (element) => {
   });
 };
 
+// Функция очистки ошибок и состояния кнопки отправки
+const clearValidation = (popup, obj) => {
+  const formElement = popup.querySelector('.popup__form');
+  const inputElements = formElement.querySelectorAll('.popup__input');
+  inputElements.forEach((input) => {
+    hideInputError(formElement, input, obj);
+  });
+  const saveButton = popup.querySelector('.popup__button-save');
+  saveButton.classList.remove('popup__button-save_disabled')
+}
+
 // Функция закрытия поапов по кнопке крестик с формой
 const setClosePopupFormEventListener = (element) => {
   element.addEventListener('click', (evt) => {
     const popupItem = evt.target.closest('.popup');
     closePopup(popupItem);
     setTimeout(() => {
-      const formElement = popupItem.querySelector('.popup__form');
-      const inputElements = formElement.querySelectorAll('.popup__input');
-      inputElements.forEach((input) => {
-        hideInputError(formElement, input);
-      });
-      const saveButton = popupItem.querySelector('.popup__button-save');
-      saveButton.classList.remove('popup__button-save_disabled')
-    }, 800);
+      clearValidation(popupItem, objectData)}
+      , 1000);
   });
 };
 
@@ -128,10 +133,10 @@ const addCard = (evt) => {
 };
 
 // Закрытие попапа после проверки есть ли рядом с кнопкой закрытия форма
-closeButtons.forEach((element) => {
+closeButtons.forEach((element, obj) => {
   (element.closest('.popup').querySelector('.popup__form')) ?
-    setClosePopupFormEventListener(element) :
-    setClosePopupEventListener(element);
+    setClosePopupFormEventListener(element, obj) :
+    setClosePopupEventListener(element, obj);
 });
 
 // Слушатель отправки формы профиля
