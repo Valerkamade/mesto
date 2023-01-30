@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
     <link rel="stylesheet" href="./pages/index.css">
+    <link rel="icon" href="./favicon.ico">
+    <link rel="icon" href="./images/favicon/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" sizes="180x180"
+      href="./images/favicon/apple-icon-180x180.png">
+    <link rel="manifest" href="./manifest.webmanifest">
   </head>
 
   <body class="page">
@@ -53,16 +58,32 @@
         <form class="popup__form popup__form_type_profile"
           method="post"
           name="profile">
-          <input class="popup__input popup__input_type_name"
-            type="text"
-            name="name"
-            placeholder="Имя"
-            required>
-          <input class="popup__input popup__input_type_job"
-            type="text"
-            name="job"
-            placeholder="Вид деятельности"
-            required>
+          <label class="popup__label">
+            <input class="popup__input popup__input_type_name"
+              type="text"
+              name="name"
+              placeholder="Имя"
+              minlength="2"
+              maxlength="40"
+              value="Имя"
+              required>
+            <span class="popup__error name-error">
+            </span>
+          </label>
+
+          <label class="popup__label">
+            <input class="popup__input popup__input_type_job"
+              type="text"
+              name="job"
+              placeholder="Вид деятельности"
+              minlength="2"
+              maxlength="200"
+              value="Вид деятельности"
+              required>
+            <span class="popup__error job-error">
+            </span>
+          </label>
+
           <button class="popup__button-save button"
             type="submit">
             Сохранить
@@ -81,16 +102,29 @@
         <form class="popup__form popup__form_type_place"
           method="post"
           name="place">
-          <input class="popup__input popup__input_type_title"
-            type="text"
-            name="title"
-            placeholder="Название"
-            required>
-          <input class="popup__input popup__input_type_link"
-            type="url"
-            name="link"
-            placeholder="Ссылка на картинку"
-            required>
+
+          <label class="popup__label">
+            <input class="popup__input popup__input_type_title"
+              type="text"
+              name="title"
+              placeholder="Название"
+              minlength="2"
+              maxlength="30"
+              required>
+            <span class="popup__error title-error">
+            </span>
+          </label>
+
+          <label class="popup__label">
+            <input class="popup__input popup__input_type_link"
+              type="url"
+              name="link"
+              placeholder="Ссылка на картинку"
+              required>
+            <span class="popup__error link-error">
+            </span>
+          </label>
+
           <button class="popup__button-save button"
             type="submit">
             Создать
@@ -115,7 +149,7 @@
         </button>
       </div>
     </div>
-The allowed case styling of class names. Can be a single value or a list of values, separated by commas (e.g "kebab,snake")
+    
     <template class="card-template">
       <li class="gallery__item">
         <button class="gallery__button-trash button"></button>
@@ -127,6 +161,7 @@ The allowed case styling of class names. Can be a single value or a list of valu
       </li>
     </template>
 
+    <script src="./scripts/validate.js"></script>
     <script src="./scripts/constants_me.js"></script>
     <script src="./scripts/index.js"></script>
   </body>
