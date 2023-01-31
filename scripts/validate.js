@@ -1,12 +1,3 @@
-const objectData = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button-save',
-  inactiveButtonClass: 'popup__button-save_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
-
 // Отключение браузерной валидации форм при подключенном JS
 const forms = document.querySelectorAll('.popup__form'); // Поиск всех форм на странице
 forms.forEach((item) => {
@@ -43,11 +34,21 @@ const hasInvalidInput = (inputList) => {
   });
 }
 
+const addDisabledButton = (buttonElement, obj) => {
+  buttonElement.classList.add(obj['inactiveButtonClass']);
+  buttonElement.setAttribute('disabled', '');
+}
+
+const removeDisabledButton = (buttonElement, obj) => {
+  buttonElement.classList.remove(obj['inactiveButtonClass']);
+  buttonElement.removeAttribute('disabled', '');
+}
+
 // Функция переключения кнопки из состояния disabled
 const toggleButtonState = (inputList, buttonElement, obj) => {
-  hasInvalidInput(inputList) ?
-    buttonElement.classList.add(obj['inactiveButtonClass']) :
-    buttonElement.classList.remove(obj['inactiveButtonClass']);
+  (hasInvalidInput(inputList)) ?
+    addDisabledButton(buttonElement, obj) :
+    removeDisabledButton(buttonElement, obj);
 }
 
 const setEventListeners = (formElement, obj) => {
@@ -60,12 +61,12 @@ const setEventListeners = (formElement, obj) => {
       toggleButtonState(inputList, buttonElement, obj);
     });
   });
-
 };
 
 const enableValidation = (obj) => {
   const formList = Array.from(document.querySelectorAll(obj['formSelector']));
   formList.forEach((formElement) => {
+    formElement.addEventListener('submit', evt => evt.preventDefault());
     setEventListeners(formElement, obj);
   });
 };

@@ -66,8 +66,7 @@
               minlength="2"
               maxlength="40"
               value="Имя"
-              required
-              autofocus>
+              required>
             <span class="popup__error name-error">
             </span>
           </label>
@@ -146,8 +145,7 @@
           alt="">
         <button class="popup__button-close button"
           type="button"
-          aria-label="Закрыть"
-          autofocus>
+          aria-label="Закрыть">
         </button>
       </div>
     </div>
@@ -159,12 +157,13 @@
           <h2 class="gallery__title"></h2>
           <button class="gallery__button-like button"></button>
         </div>
-        <img class="gallery__photo" alt="">
+        <img class="gallery__photo" 
+        alt="">
       </li>
     </template>
 
+    <script src="./scripts/constants.js"></script>
     <script src="./scripts/validate.js"></script>
-    <script src="./scripts/constants_me.js"></script>
     <script src="./scripts/index.js"></script>
   </body>
 </html>
