@@ -7,17 +7,17 @@ forms.forEach((item) => {
 // Функция показывния ошибки валидации
 const showInputError = (formElement, inputElement, errorMessage, obj) => {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.add(`${obj['inputErrorClass']}`);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(`${obj['errorClass']}`);
+  inputElement.classList.add(`${obj['inputErrorClass']}`); // Добавление класса ошибки инпуту
+  errorElement.textContent = errorMessage; // Присвоение спану текста системной ошибки
+  errorElement.classList.add(`${obj['errorClass']}`); // Добавление класса ошибки спану
 };
 
 // Функция скрытия ошибки валидации
 const hideInputError = (formElement, inputElement, obj) => {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.remove(`${obj['inputErrorClass']}`);
-  errorElement.classList.remove(`${obj['errorClass']}`);
-  errorElement.textContent = '';
+  inputElement.classList.remove(`${obj['inputErrorClass']}`); // Снятие класса ошибки с инпута
+  errorElement.classList.remove(`${obj['errorClass']}`); // Снятие класса ошибки с спана
+  errorElement.textContent = ''; // Очищение текста спана
 };
 
 // Функция проверки правильности ввода
@@ -34,11 +34,13 @@ const hasInvalidInput = (inputList) => {
   });
 }
 
+// Функция добавления неактивного класса и атрибута
 const addDisabledButton = (buttonElement, obj) => {
   buttonElement.classList.add(obj['inactiveButtonClass']);
   buttonElement.setAttribute('disabled', '');
 }
 
+// Функция снятия неактивного класса и атрибута
 const removeDisabledButton = (buttonElement, obj) => {
   buttonElement.classList.remove(obj['inactiveButtonClass']);
   buttonElement.removeAttribute('disabled', '');
@@ -51,18 +53,20 @@ const toggleButtonState = (inputList, buttonElement, obj) => {
     removeDisabledButton(buttonElement, obj);
 }
 
+// Слушатель инпутов во время ввода с предварительной проверкой валидации
 const setEventListeners = (formElement, obj) => {
   const inputList = Array.from(formElement.querySelectorAll(obj['inputSelector']));
   const buttonElement = formElement.querySelector(obj['submitButtonSelector']);
-  toggleButtonState(inputList, buttonElement, obj);
+  toggleButtonState(inputList, buttonElement, obj); // Предварительная проверка кнопок
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
+    inputElement.addEventListener('input', () => { // Валидация в режиме реального рвемени
       checkInputValidity(formElement, inputElement, obj);
       toggleButtonState(inputList, buttonElement, obj);
     });
   });
 };
 
+// Функция валидации всех форм
 const enableValidation = (obj) => {
   const formList = Array.from(document.querySelectorAll(obj['formSelector']));
   formList.forEach((formElement) => {
@@ -71,4 +75,4 @@ const enableValidation = (obj) => {
   });
 };
 
-enableValidation(objectData); 
+enableValidation(objectData); // Вызов валидации

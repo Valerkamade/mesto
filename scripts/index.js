@@ -18,7 +18,7 @@ const inputJob = formProfile.querySelector('.popup__input_type_job'); // Пои�
 
 const listGallery = document.querySelector('.gallery__list'); // Поиск списка, куда будут вставлятся карточки
 
-const popups = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup'); // Поиск всех попапов
 const buttonEdit = document.querySelector('.profile__button-edit'); // Поиск кнопки редактирования профиля
 const buttonAdd = document.querySelector('.profile__button-add'); // Поиск кнопки добавления карточки
 
@@ -26,9 +26,6 @@ const buttonAdd = document.querySelector('.profile__button-add'); // Поиск 
 const openPopup = (popupElement) => {
   popupElement.classList.add('popup_opened'); // Добавление класса открытия
   document.addEventListener('keydown', keydownEscape); // Установка слушателя закрытия по эскейп
-  // enableValidation(objectData);
-
-  // clearValidation(popupElement, objectData);
 }
 
 // Функция закрытия поапа
@@ -82,16 +79,14 @@ const setClosePopupEventListener = (element) => {
 const clearValidation = (popup, obj) => {
   const formElement = popup.querySelector(obj['formSelector']);
   const inputList = Array.from(formElement.querySelectorAll(obj['inputSelector']));
-  inputList.forEach((inputElement) => {
+  inputList.forEach((inputElement) => { // Снятие сообщений об ошибке со всех инпутов
     hideInputError(formElement, inputElement, obj);
   });
   const buttonElement = popup.querySelector(obj['submitButtonSelector']);
-  (popup === popupProfile) ?
+  (popup === popupProfile) ? // Присвоение неактивности кнопке, если это не попап профиля
     removeDisabledButton(buttonElement, obj) :
     addDisabledButton(buttonElement, obj);
-}
-
-
+};
 
 // Функция создания карточки с приемом объекта
 const createCard = (item) => {
@@ -119,8 +114,7 @@ initialCards.forEach((element) => {
 
 // Функция добавления картоочки
 const addCard = () => {
-  // Вставить карточку в начало списка
-  listGallery.prepend(createCard({
+  listGallery.prepend(createCard({  // Вставить карточку в начало списка
     name: inputTitle.value,
     link: inputLink.value,
     alt: inputTitle.value,
@@ -128,6 +122,7 @@ const addCard = () => {
   closePopup(popupCard); //Закрыть попап добавленной карточки
 };
 
+// Фунуция перебора попапов для навкшивания слушателей
 const keydownEscape = (evt) => {
   if (evt.key === 'Escape') {
     popups.forEach((popup) => {
@@ -154,7 +149,7 @@ const setClosePopupEscapeEventListener = (element) => {
 
 // Открытие попапа профиля с подтягиванием Имени и Вида деятельности
 buttonEdit.addEventListener('click', () => {
-  clearValidation(popupProfile, objectData);
+  clearValidation(popupProfile, objectData); // Очистка полей и состояния унопок после предыдущего открытия
   openPopup(popupProfile);
   inputName.value = profileName.textContent;
   inputJob.value = profileJob.textContent;
@@ -163,7 +158,7 @@ buttonEdit.addEventListener('click', () => {
 
 // Открытие попапа создания карточки
 buttonAdd.addEventListener('click', () => {
-  clearValidation(popupCard, objectData);
+  clearValidation(popupCard, objectData); // Очистка полей и состояния унопок после предыдущего открытия
   formCard.reset(); //Очистить форму
   openPopup(popupCard);
 });

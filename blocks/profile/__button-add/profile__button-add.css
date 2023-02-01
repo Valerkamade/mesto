@@ -1,6 +1,8 @@
 .profile__button-add {
   display: block;
-  order: 2;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
   max-width: 282px;
   width: 100%;
   height: 50px;

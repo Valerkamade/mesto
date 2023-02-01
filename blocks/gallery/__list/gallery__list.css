@@ -1,8 +1,11 @@
 .gallery__list {
+  display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fit, 282px);
   gap: 20px 17px;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 
   max-width: 880px;
 
