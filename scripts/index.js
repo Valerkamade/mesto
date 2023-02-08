@@ -127,9 +127,8 @@ const addCard = () => {
 // Фунуция перебора попапов для навкшивания слушателей
 const keydownEscape = (evt) => {
   if (evt.key === 'Escape') {
-    popups.forEach((popup) => {
-      closePopup(popup);
-    });
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
   };
 }
 
