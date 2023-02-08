@@ -6,4 +6,9 @@
   cursor: pointer;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  cursor: pointer;
+}
+
+.gallery__photo:hover {
+  opacity: 0.6;
 }

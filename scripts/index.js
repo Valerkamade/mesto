@@ -1,6 +1,8 @@
 const popupProfile = document.querySelector('.popup_type_profile'); // Поиск попапа профиля
 const popupCard = document.querySelector('.popup_type_place'); // Поиск поапа добавления карточки
 const popupPhoto = document.querySelector('.popup_type_img'); // Поиск поапа просмотра картинки
+const popupOpened = document.querySelector('.popup_opened'); // Поиск открытого поапа
+
 const cardTemplate = document.querySelector('.card-template').content; //Поиск шаблона для генерации карточек
 
 const formProfile = popupProfile.querySelector('.popup__form_type_profile'); // Поиск формы профиля
@@ -76,16 +78,16 @@ const setClosePopupEventListener = (element) => {
 };
 
 // Функция очистки ошибок и состояния кнопки отправки
-const clearValidation = (popup, obj) => {
-  const formElement = popup.querySelector(obj['formSelector']);
-  const inputList = Array.from(formElement.querySelectorAll(obj['inputSelector']));
+const clearValidation = (popup) => {
+  const formElement = popup.querySelector(formSelector);
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   inputList.forEach((inputElement) => { // Снятие сообщений об ошибке со всех инпутов
-    hideInputError(formElement, inputElement, obj);
+    hideInputError(formElement, inputElement);
   });
-  const buttonElement = popup.querySelector(obj['submitButtonSelector']);
+  const buttonElement = popup.querySelector(submitButtonSelector);
   (popup === popupProfile) ? // Присвоение неактивности кнопке, если это не попап профиля
-    removeDisabledButton(buttonElement, obj) :
-    addDisabledButton(buttonElement, obj);
+    removeDisabledButton(buttonElement) :
+    addDisabledButton(buttonElement);
 };
 
 // Функция создания карточки с приемом объекта
@@ -132,14 +134,15 @@ const keydownEscape = (evt) => {
 }
 
 // Слушатель закрытия поапапов по кнопке закрыть
-const setClosePopupButtonCloseEventListener = (btn, element) => {
-  btn.addEventListener('click', () => {
+const setClosePopupButtonCloseEventListener = (element) => {
+  const buttonClose = element.querySelector('.popup__button-close');
+  buttonClose.addEventListener('click', () => {
     closePopup(element);
   });
 };
 
 // Слушатель закрытия попапав по оверлею
-const setClosePopupEscapeEventListener = (element) => {
+const setClosePopupOverlayEventListener = (element) => {
   element.addEventListener('click', (evt) => {
     if (evt.target === evt.currentTarget) {
       closePopup(element);
@@ -149,7 +152,7 @@ const setClosePopupEscapeEventListener = (element) => {
 
 // Открытие попапа профиля с подтягиванием Имени и Вида деятельности
 buttonEdit.addEventListener('click', () => {
-  clearValidation(popupProfile, objectData); // Очистка полей и состояния унопок после предыдущего открытия
+  clearValidation(popupProfile); // Очистка полей и состояния унопок после предыдущего открытия
   openPopup(popupProfile);
   inputName.value = profileName.textContent;
   inputJob.value = profileJob.textContent;
@@ -158,16 +161,15 @@ buttonEdit.addEventListener('click', () => {
 
 // Открытие попапа создания карточки
 buttonAdd.addEventListener('click', () => {
-  clearValidation(popupCard, objectData); // Очистка полей и состояния унопок после предыдущего открытия
+  clearValidation(popupCard); // Очистка полей и состояния унопок после предыдущего открытия
   formCard.reset(); //Очистить форму
   openPopup(popupCard);
 });
 
 // Функция установки слушателей на попап
 const setPopupEventListener = (popupElement) => {
-  setClosePopupEscapeEventListener(popupElement);
-  const buttonClose = popupElement.querySelector('.popup__button-close');
-  setClosePopupButtonCloseEventListener(buttonClose, popupElement);
+  setClosePopupOverlayEventListener(popupElement);
+  setClosePopupButtonCloseEventListener(popupElement);
 }
 
 // Функция установки слушателей на попапы

@@ -57,7 +57,9 @@
         <h2 class="popup__heading">Редактировать профиль</h2>
         <form class="popup__form popup__form_type_profile"
           method="post"
-          name="profile">
+          name="profile"
+          novalidate>
+
           <label class="popup__label">
             <input class="popup__input popup__input_type_name"
               type="text"
@@ -65,7 +67,7 @@
               placeholder="Имя"
               minlength="2"
               maxlength="40"
-              value="Имя"
+
               required>
             <span class="popup__error name-error">
             </span>
@@ -78,7 +80,6 @@
               placeholder="Вид деятельности"
               minlength="2"
               maxlength="200"
-              value="Вид деятельности"
               required>
             <span class="popup__error job-error">
             </span>
@@ -101,7 +102,8 @@
         <h2 class="popup__heading">Новое место</h2>
         <form class="popup__form popup__form_type_place"
           method="post"
-          name="place">
+          name="place"
+          novalidate>
 
           <label class="popup__label">
             <input class="popup__input popup__input_type_title"
@@ -149,7 +151,7 @@
         </button>
       </div>
     </div>
-    
+
     <template class="card-template">
       <li class="gallery__item">
         <button class="gallery__button-trash button"></button>
@@ -157,8 +159,8 @@
           <h2 class="gallery__title"></h2>
           <button class="gallery__button-like button"></button>
         </div>
-        <img class="gallery__photo" 
-        alt="">
+        <img class="gallery__photo"
+          alt="">
       </li>
     </template>
 
