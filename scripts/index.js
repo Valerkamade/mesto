@@ -135,14 +135,14 @@ const keydownEscape = (evt) => {
 // Слушатель закрытия поапапов по кнопке закрыть
 const setClosePopupButtonCloseEventListener = (element) => {
   const buttonClose = element.querySelector('.popup__button-close');
-  buttonClose.addEventListener('click', () => {
+  buttonClose.addEventListener('mousedown', () => {
     closePopup(element);
   });
 };
 
 // Слушатель закрытия попапав по оверлею
 const setClosePopupOverlayEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
+  element.addEventListener('mousedown', (evt) => {
     if (evt.target === evt.currentTarget) {
       closePopup(element);
     }
@@ -151,16 +151,15 @@ const setClosePopupOverlayEventListener = (element) => {
 
 // Открытие попапа профиля с подтягиванием Имени и Вида деятельности
 buttonEdit.addEventListener('click', () => {
-  clearValidation(popupProfile); // Очистка полей и состояния унопок после предыдущего открытия
+  clearValidation(popupProfile); // Очистка полей и состояния кнопок после предыдущего открытия
   openPopup(popupProfile);
   inputName.value = profileName.textContent;
   inputJob.value = profileJob.textContent;
-
 });
 
 // Открытие попапа создания карточки
 buttonAdd.addEventListener('click', () => {
-  clearValidation(popupCard); // Очистка полей и состояния унопок после предыдущего открытия
+  clearValidation(popupCard); // Очистка полей и состояния кнопок после предыдущего открытия
   formCard.reset(); //Очистить форму
   openPopup(popupCard);
 });
