@@ -8,10 +8,10 @@ const {
 } = objectData;
 
 // Функция показывния ошибки валидации
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.add(`${inputErrorClass}`); // Добавление класса ошибки инпуту
-  errorElement.textContent = errorMessage; // Присвоение спану текста системной ошибки
+  errorElement.textContent = inputElement.validationMessage; // Присвоение спану текста системной ошибки
   errorElement.classList.add(`${errorClass}`); // Добавление класса ошибки спану
 };
 
@@ -25,9 +25,9 @@ const hideInputError = (formElement, inputElement) => {
 
 // Функция проверки правильности ввода
 const checkInputValidity = (formElement, inputElement) => {
-  !inputElement.validity.valid ?
-    showInputError(formElement, inputElement, inputElement.validationMessage) :
-    hideInputError(formElement, inputElement);
+  !inputElement.validity.valid
+    ? showInputError(formElement, inputElement)
+    : hideInputError(formElement, inputElement);
 };
 
 // Функция проверки валидности инпутов
@@ -40,20 +40,20 @@ const hasInvalidInput = (inputList) => {
 // Функция добавления неактивного класса и атрибута
 const addDisabledButton = (buttonElement) => {
   buttonElement.classList.add(inactiveButtonClass);
-  buttonElement.setAttribute('disabled', '');
+  buttonElement.disabled = true;
 }
 
 // Функция снятия неактивного класса и атрибута
 const removeDisabledButton = (buttonElement) => {
   buttonElement.classList.remove(inactiveButtonClass);
-  buttonElement.removeAttribute('disabled', '');
+  buttonElement.disabled = false;
 }
 
 // Функция переключения кнопки из состояния disabled
 const toggleButtonState = (inputList, buttonElement) => {
-  (hasInvalidInput(inputList)) ?
-    addDisabledButton(buttonElement) :
-    removeDisabledButton(buttonElement);
+  (hasInvalidInput(inputList))
+    ? addDisabledButton(buttonElement)
+    : removeDisabledButton(buttonElement);
 }
 
 // Слушатель инпутов во время ввода с предварительной проверкой валидации

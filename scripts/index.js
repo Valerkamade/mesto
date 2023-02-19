@@ -56,15 +56,15 @@ const submitEditProfileForm = () => {
 
 // Функция лайка/диздайка карточек
 const setToggleLikeEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('gallery__button-like_active');
+  element.addEventListener('click', () => {
+    element.classList.toggle('gallery__button-like_active');
   });
 };
 
 // Функция удаления карточки
 const setDeleteCardEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
-    const listItem = evt.target.closest('.gallery__item'); // Выбрать карточку по нажатию на фото
+  element.addEventListener('click', () => {
+    const listItem = element.closest('.gallery__item'); // Выбрать карточку по нажатию на фото
     listItem.remove(); // Удалить карточку
   });
 };
@@ -72,7 +72,7 @@ const setDeleteCardEventListener = (element) => {
 // Функция закрытия попапа по крестику без формы
 const setClosePopupEventListener = (element) => {
   element.addEventListener('click', (evt) => {
-    const popupItem = evt.target.closest('.popup');
+    const popupItem = element.closest('.popup');
     closePopup(popupItem);
   });
 };
@@ -85,9 +85,9 @@ const clearValidation = (popup) => {
     hideInputError(formElement, inputElement);
   });
   const buttonElement = popup.querySelector(submitButtonSelector);
-  (popup === popupProfile) ? // Присвоение неактивности кнопке, если это не попап профиля
-    removeDisabledButton(buttonElement) :
-    addDisabledButton(buttonElement);
+  popup === popupProfile  // Присвоение неактивности кнопке, если это не попап профиля
+    ? removeDisabledButton(buttonElement)
+    : addDisabledButton(buttonElement);
 };
 
 // Функция создания карточки с приемом объекта
@@ -122,11 +122,12 @@ const addCard = () => {
     alt: inputTitle.value,
   }));
   closePopup(popupCard); //Закрыть попап добавленной карточки
+  formCard.reset(); //Очистить форму
 };
 
 // Фунуция перебора попапов для навкшивания слушателей
 const keydownEscape = (evt) => {
-  if (evt.key === 'Escape') {
+  if (evt.key === ('Escape' || 'Esc')) {
     const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   };
@@ -160,7 +161,6 @@ buttonEdit.addEventListener('click', () => {
 // Открытие попапа создания карточки
 buttonAdd.addEventListener('click', () => {
   clearValidation(popupCard); // Очистка полей и состояния кнопок после предыдущего открытия
-  formCard.reset(); //Очистить форму
   openPopup(popupCard);
 });
 
