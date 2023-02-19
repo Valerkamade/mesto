@@ -1,3 +1,7 @@
+import { Card } from './Card.js';
+import { initialCards, objectData } from './constants.js';
+import { enableValidation } from './validate.js'
+
 const popupProfile = document.querySelector('.popup_type_profile'); // Поиск попапа профиля
 const popupCard = document.querySelector('.popup_type_place'); // Поиск поапа добавления карточки
 const popupPhoto = document.querySelector('.popup_type_img'); // Поиск поапа просмотра картинки
@@ -36,15 +40,12 @@ const closePopup = (popupElement) => {
   document.removeEventListener('keydown', keydownEscape); // Удаление слушателя закрытия по эскейп
 };
 
-// Функция открытия попапа картинки с подтягиванием нужных параметров
-const setOpenPhotoPopupEventListener = (photo) => {
-  photo.addEventListener('click', (evt) => {
-    openPopup(popupPhoto);
-    elementPopupTitle.textContent =
-      evt.target.closest('.gallery__item').textContent;
-    elementPopupPhoto.src = photo.src;
-    elementPopupPhoto.alt = photo.alt;
-  });
+// // Функция открытия попапа картинки с подтягиванием нужных параметров
+const openPhotoPopup = (photo) => {
+  openPopup(popupPhoto);
+  elementPopupTitle.textContent = photo.name;
+  elementPopupPhoto.src = photo.link;
+  elementPopupPhoto.alt = photo.alt;
 };
 
 // Функция сохранения изменений в полях формы и в профиле с закрытием окна
@@ -54,20 +55,20 @@ const submitEditProfileForm = () => {
   closePopup(popupProfile);
 };
 
-// Функция лайка/диздайка карточек
-const setToggleLikeEventListener = (element) => {
-  element.addEventListener('click', () => {
-    element.classList.toggle('gallery__button-like_active');
-  });
-};
+// // Функция лайка/диздайка карточек
+// const setToggleLikeEventListener = (element) => {
+//   element.addEventListener('click', () => {
+//     element.classList.toggle('gallery__button-like_active');
+//   });
+// };
 
-// Функция удаления карточки
-const setDeleteCardEventListener = (element) => {
-  element.addEventListener('click', () => {
-    const listItem = element.closest('.gallery__item'); // Выбрать карточку по нажатию на фото
-    listItem.remove(); // Удалить карточку
-  });
-};
+// // Функция удаления карточки
+// const setDeleteCardEventListener = (element) => {
+//   element.addEventListener('click', () => {
+//     const listItem = element.closest('.gallery__item'); // Выбрать карточку по нажатию на фото
+//     listItem.remove(); // Удалить карточку
+//   });
+// };
 
 // Функция закрытия попапа по крестику без формы
 const setClosePopupEventListener = (element) => {
@@ -90,24 +91,29 @@ const clearValidation = (popup) => {
     : addDisabledButton(buttonElement);
 };
 
-// Функция создания карточки с приемом объекта
+// // Функция создания карточки с приемом объекта
+// const createCard = (item) => {
+//   const cardElement = cardTemplate.cloneNode(true); // Клонирование разметки из шаблона
+//   const cardPhoto = cardElement.querySelector('.gallery__photo'); // Поиск фото в шаблоне
+//   const cardTitle = cardElement.querySelector('.gallery__title'); // Поиск заголовка в шаблоне
+//   const likeButton = cardElement.querySelector('.gallery__button-like'); // Поиск кнопки лайк карточки
+//   const trashButton = cardElement.querySelector('.gallery__button-trash'); // Поиск кнопки удалить карточки
+
+//   cardTitle.textContent = item.name; // Присвоить заголовку карточки значение свойства name
+//   cardPhoto.src = item.link; // Присвоить ссылке на картинку значение ствойства link
+//   cardPhoto.alt = item.alt; // Присвоить описанию картинки значение свойства alt
+
+//   setToggleLikeEventListener(likeButton); // Добавить и убрать лайк на добавленную карточку
+//   setDeleteCardEventListener(trashButton); // Удалить добавленную карточку
+//   setOpenPhotoPopupEventListener(cardPhoto); // Открыть попап добавленной карточки
+
+//   return cardElement; // Вернуть готовую карточку
+// };
+
 const createCard = (item) => {
-  const cardElement = cardTemplate.cloneNode(true); // Клонирование разметки из шаблона
-  const cardPhoto = cardElement.querySelector('.gallery__photo'); // Поиск фото в шаблоне
-  const cardTitle = cardElement.querySelector('.gallery__title'); // Поиск заголовка в шаблоне
-  const likeButton = cardElement.querySelector('.gallery__button-like'); // Поиск кнопки лайк карточки
-  const trashButton = cardElement.querySelector('.gallery__button-trash'); // Поиск кнопки удалить карточки
-
-  cardTitle.textContent = item.name; // Присвоить заголовку карточки значение свойства name
-  cardPhoto.src = item.link; // Присвоить ссылке на картинку значение ствойства link
-  cardPhoto.alt = item.alt; // Присвоить описанию картинки значение свойства alt
-
-  setToggleLikeEventListener(likeButton); // Добавить и убрать лайк на добавленную карточку
-  setDeleteCardEventListener(trashButton); // Удалить добавленную карточку
-  setOpenPhotoPopupEventListener(cardPhoto); // Открыть попап добавленной карточки
-
-  return cardElement; // Вернуть готовую карточку
-};
+  const card = new Card(item, '.card-template');
+  return card.generateCard();
+}
 
 // Генерация карточек из массива
 initialCards.forEach((element) => {
@@ -178,3 +184,5 @@ popups.forEach((popup) => {
 // Слушатели отправки форм
 formProfile.addEventListener('submit', submitEditProfileForm);// Слушатель отправки формы профиля
 formCard.addEventListener('submit', addCard);// Слушатель отправки формы карточки
+
+export { openPhotoPopup };

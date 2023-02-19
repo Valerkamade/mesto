@@ -13,7 +13,7 @@ const initialCards = [
   {
     name: 'Москва, Собор Василия Блаженного',
     link: 'https://i.postimg.cc/V6gkj5MK/nikolay-vorobyev-QJ2-HGu-SSQz0-unsplash.jpg',
-    alt: 'Соборв ночи с подсветкой.',
+    alt: 'Собор в ночи с подсветкой.',
   },
   {
     name: 'Евпатория, море',
@@ -41,3 +41,5 @@ const objectData = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 }
+
+export { initialCards, objectData }

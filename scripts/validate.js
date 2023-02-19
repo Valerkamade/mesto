@@ -1,3 +1,5 @@
+import {objectData} from './constants.js'
+
 const {
   formSelector,
   inputSelector,
@@ -79,3 +81,5 @@ const enableValidation = () => {
 };
 
 enableValidation(); // Вызов валидации
+
+export {enableValidation};
