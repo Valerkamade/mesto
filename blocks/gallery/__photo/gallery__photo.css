@@ -1,12 +1,11 @@
 .gallery__photo {
   display: block;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   aspect-ratio: 1;
   cursor: pointer;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  cursor: pointer;
 }
 
 .gallery__photo:hover {
