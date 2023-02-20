@@ -15,7 +15,7 @@
   padding: 0;
 }
 
-@media (min-width: 880px) {
+@media (min-width: 940px) {
   .gallery__list {
     -webkit-box-pack: start;
     -ms-flex-pack: start;

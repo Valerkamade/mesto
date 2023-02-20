@@ -49,7 +49,7 @@ const openPopup = (popupElement) => {
 // Функция закрытия поапа
 const closePopup = (popupElement) => {
   popupElement.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleKeydownEscape);п
+  document.removeEventListener('keydown', handleKeydownEscape);
 };
 
 // Обработчик нажатия на клавишц Escape
