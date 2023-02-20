@@ -1,13 +1,14 @@
-import {openPhotoPopup} from './index.js'
-
-class Card {
-  constructor(data, templateSelector) {
-    this._title = data.name;
+// Экспорт по умолчанию класса создания карточки
+export default class Card {
+  constructor(data, templateSelector, handleOpenPhotoPopup) {
+    this._name = data.name;
     this._link = data.link;
     this._alt = data.alt;
     this._templateSelector = templateSelector;
+    this._handleOpenPhotoPopup = handleOpenPhotoPopup;
   }
 
+  // Метод получения шаблона
   _getTemplate() {
     const cardElement = document
       .querySelector(this._templateSelector)
@@ -18,57 +19,52 @@ class Card {
     return cardElement;
   }
 
+  // Метод генерации карточки
   generateCard() {
+    // Находим карточку и все ее необходимые элементы
     this._element = this._getTemplate();
-    this._setEventListener();
+    this._photo = this._element.querySelector('.gallery__photo');
+    this._title = this._element.querySelector('.gallery__title');
+    this._buttonLike = this._element.querySelector('.gallery__button-like');
+    this._buttonTrash = this._element.querySelector('.gallery__button-trash');
 
-    this._element.querySelector('.gallery__photo').src = this._link;
-    this._element.querySelector('.gallery__title').textContent = this._title;
-    this._element.querySelector('.gallery__photo').alt = this._alt;
+    // Вносим данные в генерируемую карточку
+    this._photo.src = this._link;
+    this._title.textContent = this._name;
+    this._photo.alt = this._alt;
+
+    // Устанавливаем слушатель
+    this._setEventListener();
 
     return this._element;
   }
 
-  _hendelToggleLike() {
-    this._element.querySelector('.gallery__button-like').classList.toggle('gallery__button-like_active');
+  // Обработчик клика по кнопке лайк
+  _handleToggleLike() {
+    this._buttonLike.classList.toggle('gallery__button-like_active');
   }
 
-  _hendelDeleteCard() {
+// Обработчик клика по кнопке корзина
+  _handleDeleteCard() {
     this._element.remove();
   }
 
-  _hendelOpenPhotoPopup() {
-    openPhotoPopup({
-      link: this._link,
-      name: this._title,
-      alt: this._alt,
-    });
-  }
-
+  // Метод добавления слушателей
   _setEventListener() {
-    this._element.querySelector('.gallery__button-like').addEventListener('click', () => {
-      this._hendelToggleLike();
+    this._buttonLike.addEventListener('click', () => {
+      this._handleToggleLike();
     });
 
-    this._element.querySelector('.gallery__button-trash').addEventListener('click', () => {
-      this._hendelDeleteCard();
+    this._buttonTrash.addEventListener('click', () => {
+      this._handleDeleteCard();
     })
 
-    this._element.querySelector('.gallery__photo').addEventListener('click', () => {
-      this._hendelOpenPhotoPopup();
+    this._photo.addEventListener('click', () => {
+      this._handleOpenPhotoPopup({
+            link: this._link,
+            name: this._name,
+            alt: this._alt,
+          });
     })
   };
 }
-
-export { Card };
-
-// Функция открытия попапа картинки с подтягиванием нужных параметров
-const setOpenPhotoPopupEventListener = (photo) => {
-  photo.addEventListener('click', (evt) => {
-    openPopup(popupPhoto);
-    elementPopupTitle.textContent =
-      evt.target.closest('.gallery__item').textContent;
-    elementPopupPhoto.src = photo.src;
-    elementPopupPhoto.alt = photo.alt;
-  });
-};

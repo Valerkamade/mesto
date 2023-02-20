@@ -42,4 +42,5 @@ const objectData = {
   errorClass: 'popup__error_visible'
 }
 
+// Экспорт данных
 export { initialCards, objectData }
