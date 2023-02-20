@@ -111,7 +111,7 @@ buttonEdit.addEventListener('click', () => {
 
 // Открытие попапа создания карточки
 buttonAdd.addEventListener('click', () => {
-  formCard.reset(); //Очистить форму
+  formCard.reset();
   openPopup(popupCard);
   formCardValidator.clearValidation();
 });
