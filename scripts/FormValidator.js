@@ -8,6 +8,8 @@ export default class FormValidator {
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   // Метод получения спана конкретного инпута
@@ -15,17 +17,7 @@ export default class FormValidator {
     return this._errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
   }
 
-   // Метод получения массива инпутов формы
-  _getArryInputs() {
-    return this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-  }
-
-   // Метод получения получения кнопки фоормы
-  _getButtonSubmit() {
-    return this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-  }
-
-   // Метод отображения ошибок ввода
+  // Метод отображения ошибок ввода
   _showInputError(inputElement) {
     inputElement.classList.add(`${this._inputErrorClass}`); // Добавление класса ошибки инпуту
     this._getErrorElement(inputElement).textContent = inputElement.validationMessage; // Присвоение спану текста системной ошибки
@@ -48,48 +40,47 @@ export default class FormValidator {
 
   // Метод проверки валидности всей формы
   _hasInvalidInput() {
-    return this._getArryInputs().some((inputElement) => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
   // Метод деактивации кнопки формы
-  _addDisabledButton() {
-    this._getButtonSubmit().classList.add(this._inactiveButtonClass);
-    this._getButtonSubmit().disabled = true;
+  _disableButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.disabled = true;
   }
 
   // Метод активации кнопки формы
-  _removeDisabledButton() {
-    this._getButtonSubmit().classList.remove(this._inactiveButtonClass);
-    this._getButtonSubmit().disabled = false;
+  _enableButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.disabled = false;
   }
 
   // Метод переключения кнопки из состояния disabled
-  _toggleButtonState(inputElement) {
-    (this._hasInvalidInput(inputElement))
-      ? this._addDisabledButton()
-      : this._removeDisabledButton();
+  _toggleButtonState() {
+    (this._hasInvalidInput())
+      ? this._disableButton()
+      : this._enableButton();
   }
 
   // Слушатель инпутов
   _setEventListeners() {
-    this._getArryInputs().forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => { // Валидация в режиме реального рвемени
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputElement);
       });
-      this._toggleButtonState(inputElement);
+      this._toggleButtonState();
     });
   };
 
   // Метод очистки валидации после закрытия попапа
   clearValidation() {
-    this._getArryInputs().forEach((inputElement) => {
-      this._toggleButtonState(inputElement);
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
-    
   }
 
   // Метод запуска валидации
