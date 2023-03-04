@@ -1,6 +1,7 @@
 // Импорт классов и данных
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 import { initialCards, objectData } from '../utils/constants.js';
 import './index.css';
 
@@ -51,6 +52,16 @@ const createCard = (data) => {
   const card = new Card(data, '.card-template', handleOpenPhotoPopup);
   return card.generateCard();
 };
+
+// Функция создания экземпляра секции
+const cardSection = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    cardSection.addItem(createCard(item));
+  }
+}, '.gallery__list');
+
+cardSection.renderItems();
 
 // Функция открытия попапа
 const openPopup = (popupElement) => {
@@ -105,9 +116,9 @@ const addCard = (evt) => {
 };
 
 // Генерация карточек из массива
-initialCards.forEach((element) => {
-  listGallery.append(createCard(element));
-});
+// initialCards.forEach((element) => {
+//   listGallery.append(createCard(element));
+// });
 
 // Вызов валидации
 enableValidation(objectData);
