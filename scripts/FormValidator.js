@@ -69,7 +69,7 @@ export default class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => { // Валидация в режиме реального рвемени
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputElement);
+        this._toggleButtonState();
       });
       this._toggleButtonState();
     });

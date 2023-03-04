@@ -29,6 +29,7 @@ const elementPopupTitle = popupPhoto.querySelector('.popup__title');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 const listGallery = document.querySelector('.gallery__list');
+const templateSelector = '.card-template';
 
 // Экземпляры класса валидации
 const formValidators = {}
@@ -47,7 +48,7 @@ const enableValidation = (data) => {
 
 // Функция создания экземпляра карточки по переданным данным
 const createCard = (data) => {
-  const card = new Card(data, '.card-template', handleOpenPhotoPopup);
+  const card = new Card(data, templateSelector, handleOpenPhotoPopup);
   return card.generateCard();
 };
 
