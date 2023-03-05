@@ -2,13 +2,15 @@
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 import { initialCards, objectData } from '../utils/constants.js';
 import './index.css';
+import PopupWithForm from '../components/PopupWithForm.js';
 
 // Попапы
 const popups = document.querySelectorAll('.popup');
-const popupProfile = document.querySelector('.popup_type_profile');
-const popupCard = document.querySelector('.popup_type_place');
+// const popupProfile = document.querySelector('.popup_type_profile');
+// const popupCard = document.querySelector('.popup_type_place');
 const popupPhoto = document.querySelector('.popup_type_img');
 
 // Форма редакчтирования профиля
@@ -49,7 +51,13 @@ const enableValidation = (data) => {
 
 // Функция создания экземпляра карточки по переданным данным
 const createCard = (data) => {
-  const card = new Card(data, '.card-template', handleOpenPhotoPopup);
+  const card = new Card(data,
+    '.card-template',
+    () => {
+      const openPopupImage = new PopupWithImage('.popup_type_img', data);
+      openPopupImage.open();
+      openPopupImage.setEventListeners();
+    });
   return card.generateCard();
 };
 
@@ -61,64 +69,31 @@ const cardSection = new Section({
   }
 }, '.gallery__list');
 
+
 cardSection.renderItems();
 
-// Функция открытия попапа
-const openPopup = (popupElement) => {
-  popupElement.classList.add('popup_opened');
-  document.addEventListener('keydown', handleKeydownEscape);
-}
+const popupProfile = new PopupWithForm(
+  '.popup_type_profile',
+  (evt) => {
+    evt.preventDefault();
+    profileName.textContent = inputName.value;
+    profileJob.textContent = inputJob.value;
+    popupProfile.close();
+  }
+);
 
-// Функция закрытия поапа
-const closePopup = (popupElement) => {
-  popupElement.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleKeydownEscape);
-};
-
-// Обработчик нажатия на клавишц Escape
-const handleKeydownEscape = (evt) => {
-  if (evt.key === ('Escape' || 'Esc')) {
-    const popupOpened = document.querySelector('.popup_opened');
-    closePopup(popupOpened);
-  };
-}
-
-// Обработчик открытия попапа картинки
-const handleOpenPhotoPopup = (photo) => {
-  openPopup(popupPhoto);
-  elementPopupTitle.textContent = photo.name;
-  elementPopupPhoto.src = photo.link;
-  elementPopupPhoto.alt = photo.alt;
-};
-
-// Функция сохранения изменений в полях формы и в профиле с закрытием окна
-const submitEditProfileForm = (evt) => {
-  evt.preventDefault();
-  profileName.textContent = inputName.value;
-  profileJob.textContent = inputJob.value;
-  closePopup(popupProfile);
-};
-
-// Функция вставки карточки в начало списка
-const prependCard = () => {
-  listGallery.prepend(createCard({
-    name: inputTitle.value,
-    link: inputLink.value,
-    alt: inputTitle.value,
-  }));
-}
-
-// Функция добавления картоочки
-const addCard = (evt) => {
-  evt.preventDefault();
-  prependCard();
-  closePopup(popupCard);
-};
-
-// Генерация карточек из массива
-// initialCards.forEach((element) => {
-//   listGallery.append(createCard(element));
-// });
+const popupAddCard = new PopupWithForm(
+  '.popup_type_place',
+  (evt) => {
+    evt.preventDefault();
+    cardSection.addItem(createCard({
+      name: inputTitle.value,
+      link: inputLink.value,
+      alt: inputTitle.value,
+    }));
+    popupAddCard.close();
+  }
+);
 
 // Вызов валидации
 enableValidation(objectData);
@@ -138,32 +113,91 @@ buttonAdd.addEventListener('click', () => {
   formValidators['place'].clearValidation();
 });
 
-// Слушатель закрытия поапапов по кнопке закрыть
-const setClosePopupButtonCloseEventListener = (element) => {
-  const buttonClose = element.querySelector('.popup__button-close');
-  buttonClose.addEventListener('click', () => {
-    closePopup(element);
-  });
-};
+
 
 // Слушатель закрытия попапав по оверлею
-const setClosePopupOverlayEventListener = (element) => {
-  element.addEventListener('mousedown', (evt) => {
-    if (evt.target === evt.currentTarget) {
-      closePopup(element);
-    }
-  });
-};
+// const setClosePopupOverlayEventListener = (element) => {
+//   element.addEventListener('mousedown', (evt) => {
+//     if (evt.target === evt.currentTarget) {
+//       closePopup(element);
+//     }
+//   });
+// };
 
-// Функция установки слушателей на попап
-const setPopupEventListener = (popupElement) => {
-  setClosePopupOverlayEventListener(popupElement);
-  setClosePopupButtonCloseEventListener(popupElement);
-}
 
-// Функция установки слушателей на попапы
-popups.forEach(setPopupEventListener);
 
 // Слушатели отправки форм
-formProfile.addEventListener('submit', submitEditProfileForm);
-formCard.addEventListener('submit', addCard);
+// formProfile.addEventListener('submit', submitEditProfileForm);
+// formCard.addEventListener('submit', addCard);
+
+// Функция открытия попапа
+// const openPopup = (popupElement) => {
+//   popupElement.classList.add('popup_opened');
+//   document.addEventListener('keydown', handleKeydownEscape);
+// }
+
+// Функция закрытия поапа
+// const closePopup = (popupElement) => {
+//   // popupElement.classList.remove('popup_opened');
+//   document.removeEventListener('keydown', handleKeydownEscape);
+// };
+
+// Обработчик нажатия на клавишц Escape
+// const handleKeydownEscape = (evt) => {
+
+// }
+
+// Обработчик открытия попапа картинки
+// const handleOpenPhotoPopup = (photo) => {
+//   openPopup(popupPhoto);
+//   elementPopupTitle.textContent = photo.name;
+//   elementPopupPhoto.src = photo.link;
+//   elementPopupPhoto.alt = photo.alt;
+// };
+
+// Генерация карточек из массива
+// initialCards.forEach((element) => {
+//   listGallery.append(createCard(element));
+// });
+
+// Слушатель закрытия поапапов по кнопке закрыть
+// const setClosePopupButtonCloseEventListener = (element) => {
+//   const buttonClose = element.querySelector('.popup__button-close');
+//   buttonClose.addEventListener('click', () => {
+//     closePopup(element);
+//   });
+// };
+
+// Функция установки слушателей на попап
+// const setPopupEventListener = (popupElement) => {
+//   setClosePopupOverlayEventListener(popupElement);
+//   setClosePopupButtonCloseEventListener(popupElement);
+// }
+
+// Функция установки слушателей на попапы
+// popups.forEach(setPopupEventListener);
+
+
+// Функция сохранения изменений в полях формы и в профиле с закрытием окна
+// const submitEditProfileForm = (evt) => {
+//   evt.preventDefault();
+//   profileName.textContent = inputName.value;
+//   profileJob.textContent = inputJob.value;
+//   closePopup(popupProfile);
+// };
+
+// Функция вставки карточки в начало списка
+// const prependCard = () => {
+//   listGallery.prepend(createCard({
+//     name: inputTitle.value,
+//     link: inputLink.value,
+//     alt: inputTitle.value,
+//   }));
+// }
+
+// Функция добавления картоочки
+// const addCard = (evt) => {
+//   evt.preventDefault();
+//   prependCard();
+//   closePopup(popupCard);
+// };
