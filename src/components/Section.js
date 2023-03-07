@@ -5,16 +5,13 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
+  // Метод добавления контента
   addItem(element) {
     this._container.prepend(element);
   }
 
-  clear() {
-    this._container.innerHTML = '';
-  }
-
+  // Метод отрисовки контента
   renderItems() {
-    this.clear();
     this._renderedItems.forEach(item => {
       this._renderer(item);
     });

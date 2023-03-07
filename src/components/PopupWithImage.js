@@ -10,6 +10,7 @@ export default class PopupWithImage extends Popup {
     this._title = this._popupElement.querySelector('.popup__title');
   }
 
+  // Метод открытия попапа с вставкой данных
   open() {
     this._image.src = this._link;
     this._image.alt = this._alt;
