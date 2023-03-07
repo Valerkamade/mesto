@@ -1,11 +1,11 @@
 // Экспорт по умолчанию класса создания карточки
 export default class Card {
-  constructor(data, templateSelector, handleOpenPhotoPopup) {
+  constructor(data, templateSelector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.alt;
     this._templateSelector = templateSelector;
-    this._handleOpenPhotoPopup = handleOpenPhotoPopup;
+    this._handleCardClick = handleCardClick;
   }
 
   // Метод получения шаблона
@@ -60,7 +60,7 @@ export default class Card {
     })
 
     this._photo.addEventListener('click', () => {
-      this._handleOpenPhotoPopup({
+      this._handleCardClick({
             link: this._link,
             name: this._name,
             alt: this._alt,
