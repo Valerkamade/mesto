@@ -12,10 +12,6 @@ import './index.css';
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 
-// Импуты формы профиля
-const inputName = document.forms['profile'].querySelector('.popup__input_type_name');
-const inputJob = document.forms['profile'].querySelector('.popup__input_type_job');
-
 // Экземпляр класса профиля
 const userInfo = new UserInfo(
   {
@@ -82,9 +78,7 @@ const popupAddCard = new PopupWithForm(
 
 // Открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
-  inputName.value = userInfo.getUserInfo()['name'];
-  inputJob.value = userInfo.getUserInfo()['info'];
-
+  popupProfile.fillInputs(userInfo.getUserInfo());
   formValidators['profile'].clearValidation();
   popupProfile.open();
 });
