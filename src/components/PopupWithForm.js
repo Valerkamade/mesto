@@ -33,4 +33,12 @@ export default class PopupWithForm extends Popup {
     super.close();
     this._formSubmit.reset();
   }
+
+  // Метод заполнения инпутов формы переданными данными по ключу совпадающему с именем инпута
+  fillInputs(data) {
+    this._inputList.forEach((input) => {
+      const inputName = input.getAttribute('name')
+      input.value = data[`${inputName}`];
+    });
+  }
 }
