@@ -5,16 +5,16 @@ export default class Popup {
   }
 
   // Метод закрытия попапа по Escape
-  _handleEscClose(evt) {
+  _handleEscClose = (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
-      this.close(this._popupElement);
+      this.close();
     };
   }
 
   // Метод закрытия попапа по оверлею
   _handleOverlayClose(evt) {
     if (evt.target === evt.currentTarget) {
-      this.close(this._popupElement);
+      this.close();
     }
   }
 
@@ -33,7 +33,7 @@ export default class Popup {
   // Метод установки слушателей
   setEventListeners() {
     this._buttonClose.addEventListener('click', () => {
-      this.close(this._popupElement);
+      this.close();
     });
 
     this._popupElement.addEventListener('mousedown', this._handleOverlayClose.bind(this));

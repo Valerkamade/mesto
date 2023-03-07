@@ -12,6 +12,10 @@ import './index.css';
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 
+// Импуты формы профиля
+const inputName = document.forms['profile'].querySelector('.popup__input_type_name');
+const inputJob = document.forms['profile'].querySelector('.popup__input_type_job');
+
 // Экземпляр класса профиля
 const userInfo = new UserInfo(
   {
@@ -35,25 +39,26 @@ const enableValidation = (data) => {
   });
 };
 
+// Экземпляр поапа картинки
+const openPopupImage = new PopupWithImage('.popup_type_img');
+
 // Функция создания экземпляра карточки
 const createCard = (data) => {
   const card = new Card(data,
     '.card-template',
     () => {
-      const openPopupImage = new PopupWithImage('.popup_type_img', data);
-      openPopupImage.open();
-      openPopupImage.setEventListeners();
+      openPopupImage.open(data);
     });
   return card.generateCard();
 };
 
 // Создание экземпляра секции
 const cardSection = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    cardSection.addItem(createCard(item));
-  }
-}, '.gallery__list');
+  renderer: (items) => {
+    cardSection.addItem(createCard(items));
+  },
+  containerSelector: '.gallery__list'
+});
 
 // Создание экземпляра попапа с формой профиля
 const popupProfile = new PopupWithForm(
@@ -77,11 +82,9 @@ const popupAddCard = new PopupWithForm(
 
 // Открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
-  const inputName = document.forms['profile'].querySelector('.popup__input_type_name');
-  const inputJob = document.forms['profile'].querySelector('.popup__input_type_job');
   inputName.value = userInfo.getUserInfo()['name'];
   inputJob.value = userInfo.getUserInfo()['info'];
-  
+
   formValidators['profile'].clearValidation();
   popupProfile.open();
 });
@@ -96,8 +99,9 @@ buttonAdd.addEventListener('click', () => {
 enableValidation(objectData);
 
 // Отрисовка первоначальных карточек
-cardSection.renderItems();
+cardSection.renderItems(initialCards);
 
-// Установка слушателей на форму
+// Установка слушателей попапов
+openPopupImage.setEventListeners();
 popupProfile.setEventListeners();
 popupAddCard.setEventListeners();
