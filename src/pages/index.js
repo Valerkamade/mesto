@@ -36,14 +36,14 @@ const enableValidation = (data) => {
 };
 
 // Экземпляр поапа картинки
-const openPopupImage = new PopupWithImage('.popup_type_img');
+const popupImage = new PopupWithImage('.popup_type_img');
 
 // Функция создания экземпляра карточки
 const createCard = (data) => {
   const card = new Card(data,
     '.card-template',
     () => {
-      openPopupImage.open(data);
+      popupImage.open(data);
     });
   return card.generateCard();
 };
@@ -96,6 +96,6 @@ enableValidation(objectData);
 cardSection.renderItems(initialCards);
 
 // Установка слушателей попапов
-openPopupImage.setEventListeners();
+popupImage.setEventListeners();
 popupProfile.setEventListeners();
 popupAddCard.setEventListeners();
