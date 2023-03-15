@@ -1,12 +1,13 @@
 import Popup from "./Popup";
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, submitCallback) {
+  constructor(popupSelector, submitCallback, callback) {
     super(popupSelector);
     this._submitCallback = submitCallback;
     this._formSubmit = this._popupElement.querySelector('form');
     this._inputList = Array.from(this._formSubmit.querySelectorAll('input'));
     this._inputsValues = {};
+    this.callback = callback;
   }
 
   // Метод сбора данных инпутов формы
@@ -15,7 +16,7 @@ export default class PopupWithForm extends Popup {
       const inputName = inputElement['name'];
       this._inputsValues[inputName] = inputElement.value;
     });
-    
+
     return this._inputsValues;
   }
 
@@ -25,6 +26,7 @@ export default class PopupWithForm extends Popup {
     this._formSubmit.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._submitCallback(this._getInputValues());
+      this.callback();
       this.close();
     });
   }

@@ -11,12 +11,14 @@ import './index.css';
 // Кнопки открытия попапаов
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
+const buttonProfile = document.querySelector('.profile__button-avatar');
 
 // Экземпляр класса профиля
 const userInfo = new UserInfo(
   {
     profileNameSelector: '.profile__name',
-    profileInfoSelector: '.profile__job'
+    profileInfoSelector: '.profile__job',
+    profileAvatarSelector: '.profile__avatar'
   },
 );
 
@@ -38,20 +40,38 @@ const enableValidation = (data) => {
 // Экземпляр поапа картинки
 const popupImage = new PopupWithImage('.popup_type_img');
 
+const popupDeleteCard = new PopupWithForm(
+  '.popup_type_delete',
+  () => {
+    
+  },
+  (element) => {
+    return element;
+  }
+);
+
 // Функция создания экземпляра карточки
-const createCard = (data) => {
-  const card = new Card(data,
-    '.card-template',
-    () => {
-      popupImage.open(data);
-    });
-  return card.generateCard();
-};
+const card = (data) => new Card({
+  data: data,
+  templateSelector: '.card-template',
+  handleCardClick: () => {
+    popupImage.open(data);
+  },
+  handelCardDeleteClick: () => {
+    popupDeleteCard.open();
+
+  }
+})
+
+// Функция генерации карточки
+const generateNewCard = (data) => {
+  return card(data).generateCard();
+}
 
 // Создание экземпляра секции
 const cardSection = new Section({
   renderer: (items) => {
-    cardSection.addItem(createCard(items));
+    cardSection.addItem(generateNewCard(items));
   },
   containerSelector: '.gallery__list'
 });
@@ -68,11 +88,20 @@ const popupProfile = new PopupWithForm(
 const popupAddCard = new PopupWithForm(
   '.popup_type_place',
   ({ link, title }) => {
-    cardSection.addItem(createCard({
+    const newCard = card({
       name: title,
       link: link,
       alt: title,
-    }));
+    });
+    cardSection.addItem(newCard.generateCard());
+    newCard.activeButtonTrush();
+  }
+);
+
+const popupEditAvatar = new PopupWithForm(
+  '.popup_type_avatar',
+  (data) => {
+    userInfo.setUserAvatar(data);
   }
 );
 
@@ -89,6 +118,10 @@ buttonAdd.addEventListener('click', () => {
   formValidators['place'].clearValidation();
 });
 
+buttonProfile.addEventListener('click', () => {
+  popupEditAvatar.open();
+});
+
 // Вызов валидации
 enableValidation(objectData);
 
@@ -99,3 +132,5 @@ cardSection.renderItems(initialCards);
 popupImage.setEventListeners();
 popupProfile.setEventListeners();
 popupAddCard.setEventListeners();
+popupDeleteCard.setEventListeners();
+popupEditAvatar.setEventListeners();
