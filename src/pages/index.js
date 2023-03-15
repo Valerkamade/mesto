@@ -59,8 +59,8 @@ const cardSection = new Section({
 // Создание экземпляра попапа с формой профиля
 const popupProfile = new PopupWithForm(
   '.popup_type_profile',
-  ({ name, job }) => {
-    userInfo.setUserInfo({ name, job });
+  (data) => {
+    userInfo.setUserInfo(data);
   }
 );
 

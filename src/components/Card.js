@@ -34,7 +34,7 @@ export default class Card {
     this._photo.alt = this._alt;
 
     // Устанавливаем слушатель
-    this._setEventListener();
+    this._setEventListeners();
 
     return this._element;
   }
@@ -46,11 +46,13 @@ export default class Card {
 
 // Обработчик клика по кнопке корзина
   _handleDeleteCard() {
+    console.log(this._element);
     this._element.remove();
+    this._element = null;
   }
 
   // Метод добавления слушателей
-  _setEventListener() {
+  _setEventListeners() {
     this._buttonLike.addEventListener('click', () => {
       this._handleToggleLike();
     });
@@ -60,11 +62,7 @@ export default class Card {
     })
 
     this._photo.addEventListener('click', () => {
-      this._handleCardClick({
-            link: this._link,
-            name: this._name,
-            alt: this._alt,
-          });
+      this._handleCardClick();
     })
   };
 }
