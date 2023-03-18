@@ -1,12 +1,12 @@
 // Экспорт по умолчанию класса создания карточки
 export default class Card {
-  constructor({ data, templateSelector, handleCardClick, handelCardDeleteClick }) {
+  constructor({ data, templateSelector, handleCardLikeClick, handelCardTrashClick }) {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.alt;
     this._templateSelector = templateSelector;
-    this._handleCardClick = handleCardClick;
-    this._handelCardDeleteClick = handelCardDeleteClick;
+    this._handleCardLikeClick = handleCardLikeClick;
+    this._handelCardTrashClick = handelCardTrashClick;
   }
 
   // Метод получения шаблона
@@ -37,7 +37,7 @@ export default class Card {
 
     // Устанавливаем слушатель
     this._setEventListeners();
-
+    
     return this._element;
   }
 
@@ -54,10 +54,10 @@ export default class Card {
     this._buttonTrash.classList.add('gallery__button-trash_active');
   }
   // Обработчик клика по кнопке корзина
-  _handleDeleteCard() {
-    this._element.remove();
-    this._element = null;
-  }
+  // _handleDeleteCard() {
+  //   this._element.remove();
+  //   this._element = null;
+  // }
 
   // Метод добавления слушателей
   _setEventListeners() {
@@ -65,12 +65,12 @@ export default class Card {
       this._handleToggleLike();
     });
 
-    this._buttonTrash.addEventListener('click', () => {
-      this._handelCardDeleteClick();
+    this._buttonTrash.addEventListener('click', (evt) => {
+      this._handelCardTrashClick(evt);
     })
 
     this._photo.addEventListener('click', () => {
-      this._handleCardClick();
+      this._handleCardLikeClick();
     })
   };
 }

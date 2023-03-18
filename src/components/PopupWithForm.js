@@ -1,13 +1,12 @@
 import Popup from "./Popup";
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, submitCallback, callback) {
+  constructor(popupSelector, {submitCallback}) {
     super(popupSelector);
     this._submitCallback = submitCallback;
     this._formSubmit = this._popupElement.querySelector('form');
     this._inputList = Array.from(this._formSubmit.querySelectorAll('input'));
     this._inputsValues = {};
-    this.callback = callback;
   }
 
   // Метод сбора данных инпутов формы
@@ -26,9 +25,16 @@ export default class PopupWithForm extends Popup {
     this._formSubmit.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._submitCallback(this._getInputValues());
-      this.callback();
       this.close();
     });
+  }
+
+  setElement(element) {
+    this._element = element;
+  }
+
+  getElement() {
+    return this._element;
   }
 
   // Метод закрытия попапа со сбросом формы

@@ -36,6 +36,7 @@ export default class Popup {
       this.close();
     });
 
-    this._popupElement.addEventListener('mousedown', this._handleOverlayClose.bind(this));
+    this._popupElement.addEventListener('mousedown',
+      this._handleOverlayClose.bind(this));
   }
 }

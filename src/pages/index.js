@@ -22,7 +22,7 @@ const userInfo = new UserInfo(
   },
 );
 
-// Экземпляры класса валидации
+// Экземпляры класса валидаци
 const formValidators = {};
 
 // Включение валидации с наполнением объекта экземпляров валидации
@@ -40,13 +40,14 @@ const enableValidation = (data) => {
 // Экземпляр поапа картинки
 const popupImage = new PopupWithImage('.popup_type_img');
 
+//Экземпляр попапа удаления карточки
 const popupDeleteCard = new PopupWithForm(
   '.popup_type_delete',
-  () => {
-    
-  },
-  (element) => {
-    return element;
+  {
+    submitCallback: () => {
+      const el = popupDeleteCard.getElement();
+      el.remove();
+    }
   }
 );
 
@@ -54,12 +55,13 @@ const popupDeleteCard = new PopupWithForm(
 const card = (data) => new Card({
   data: data,
   templateSelector: '.card-template',
-  handleCardClick: () => {
+  handleCardLikeClick: () => {
     popupImage.open(data);
   },
-  handelCardDeleteClick: () => {
+  handelCardTrashClick: (evt) => {
     popupDeleteCard.open();
-
+    const element = evt.target.closest('.gallery__item');
+    popupDeleteCard.setElement(element);
   }
 })
 
@@ -70,8 +72,8 @@ const generateNewCard = (data) => {
 
 // Создание экземпляра секции
 const cardSection = new Section({
-  renderer: (items) => {
-    cardSection.addItem(generateNewCard(items));
+  renderer: (item) => {
+    cardSection.addItem(generateNewCard(item));
   },
   containerSelector: '.gallery__list'
 });
@@ -79,29 +81,36 @@ const cardSection = new Section({
 // Создание экземпляра попапа с формой профиля
 const popupProfile = new PopupWithForm(
   '.popup_type_profile',
-  (data) => {
-    userInfo.setUserInfo(data);
+  {
+    submitCallback: (data) => {
+      userInfo.setUserInfo(data);
+    }
   }
 );
 
 // Создание экземпляра попапа с формой добавления карточки
 const popupAddCard = new PopupWithForm(
   '.popup_type_place',
-  ({ link, title }) => {
-    const newCard = card({
-      name: title,
-      link: link,
-      alt: title,
-    });
-    cardSection.addItem(newCard.generateCard());
-    newCard.activeButtonTrush();
+  {
+    submitCallback: ({ link, title }) => {
+      const newCard = card({
+        name: title,
+        link: link,
+        alt: title,
+      });
+      cardSection.addItem(newCard.generateCard());
+      newCard.activeButtonTrush();
+    }
   }
 );
 
+//Экземпляр попапа изменения аватара
 const popupEditAvatar = new PopupWithForm(
   '.popup_type_avatar',
-  (data) => {
-    userInfo.setUserAvatar(data);
+  {
+    submitCallback: (data) => {
+      userInfo.setUserAvatar(data);
+    }
   }
 );
 
@@ -118,6 +127,7 @@ buttonAdd.addEventListener('click', () => {
   formValidators['place'].clearValidation();
 });
 
+//Открытие попапа аватара
 buttonProfile.addEventListener('click', () => {
   popupEditAvatar.open();
 });
