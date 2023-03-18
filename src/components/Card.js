@@ -1,11 +1,12 @@
 // Экспорт по умолчанию класса создания карточки
 export default class Card {
-  constructor(data, templateSelector, handleCardClick) {
+  constructor({ data, templateSelector, handleCardLikeClick, handelCardTrashClick }) {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.alt;
     this._templateSelector = templateSelector;
-    this._handleCardClick = handleCardClick;
+    this._handleCardLikeClick = handleCardLikeClick;
+    this._handelCardTrashClick = handelCardTrashClick;
   }
 
   // Метод получения шаблона
@@ -26,6 +27,7 @@ export default class Card {
     this._photo = this._element.querySelector('.gallery__photo');
     this._title = this._element.querySelector('.gallery__title');
     this._buttonLike = this._element.querySelector('.gallery__button-like');
+    this._counterLikes = this._element.querySelector('.gallery__likes-count');
     this._buttonTrash = this._element.querySelector('.gallery__button-trash');
 
     // Вносим данные в генерируемую карточку
@@ -34,37 +36,41 @@ export default class Card {
     this._photo.alt = this._alt;
 
     // Устанавливаем слушатель
-    this._setEventListener();
-
+    this._setEventListeners();
+    
     return this._element;
   }
 
   // Обработчик клика по кнопке лайк
   _handleToggleLike() {
     this._buttonLike.classList.toggle('gallery__button-like_active');
+    const count = this._counterLikes.textContent;
+    this._buttonLike.classList.contains('gallery__button-like_active')
+      ? this._counterLikes.textContent = Number(count) + 1
+      : this._counterLikes.textContent = Number(count) - 1;
   }
 
-// Обработчик клика по кнопке корзина
-  _handleDeleteCard() {
-    this._element.remove();
+  activeButtonTrush() {
+    this._buttonTrash.classList.add('gallery__button-trash_active');
   }
+  // Обработчик клика по кнопке корзина
+  // _handleDeleteCard() {
+  //   this._element.remove();
+  //   this._element = null;
+  // }
 
   // Метод добавления слушателей
-  _setEventListener() {
+  _setEventListeners() {
     this._buttonLike.addEventListener('click', () => {
       this._handleToggleLike();
     });
 
-    this._buttonTrash.addEventListener('click', () => {
-      this._handleDeleteCard();
+    this._buttonTrash.addEventListener('click', (evt) => {
+      this._handelCardTrashClick(evt);
     })
 
     this._photo.addEventListener('click', () => {
-      this._handleCardClick({
-            link: this._link,
-            name: this._name,
-            alt: this._alt,
-          });
+      this._handleCardLikeClick();
     })
   };
 }

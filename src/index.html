@@ -27,14 +27,16 @@
             <h1 class="profile__name">Изотова Валерия</h1>
             <button class="profile__button-edit button"
               type="button"
-              aria-label="Изменить профиль">
+              aria-label="Изменить аватар">
             </button>
           </div>
           <p class="profile__job">Инженер-проектировщик ВОЛС</p>
         </div>
-        <img class="profile__avatar"
-          src="<%=require('./images/avatar_me.jpg')%>"
-        alt="Фото профиля.">
+        <button class="profile__button-avatar">
+          <img class="profile__avatar"
+            src="<%=require('./images/avatar_me.jpg')%>"
+          alt="Фото профиля.">
+        </button>
         <button class="profile__button-add button"
           type="button"
           aria-label="Добавить место">
@@ -153,12 +155,68 @@
       </div>
     </div>
 
+    <div class="popup popup_type_delete">
+      <div class="popup__container">
+        <h2 class="popup__heading popup__heading_type_delete">Вы уверены?</h2>
+        <form class="popup__form popup__form_type_delete"
+          method="post"
+          name="delete"
+          autocomplete="off"
+          novalidate>
+
+          <button class="popup__button-save button"
+            type="submit">
+            Да
+          </button>
+        </form>
+        <button class="popup__button-close button"
+          type="button"
+          aria-label="Закрыть">
+        </button>
+      </div>
+    </div>
+
+    <div class="popup popup_type_avatar">
+      <div class="popup__container">
+        <h2 class="popup__heading">Обновить аватар</h2>
+        <form class="popup__form popup__form_type_avatar"
+          method="post"
+          name="avatar"
+          autocomplete="off"
+          novalidate>
+
+          <label class="popup__label">
+            <input class="popup__input popup__input_type_link"
+              type="url"
+              name="link"
+              placeholder="Ссылка на картинку"
+              required>
+            <span class="popup__error link-error">
+            </span>
+          </label>
+
+          <button class="popup__button-save button"
+            type="submit">
+            Создать
+          </button>
+        </form>
+        <button class="popup__button-close button"
+          type="button"
+          aria-label="Закрыть">
+        </button>
+      </div>
+    </div>
+
     <template class="card-template">
       <li class="gallery__item">
         <button class="gallery__button-trash button"></button>
         <div class="gallery__info">
           <h2 class="gallery__title"></h2>
-          <button class="gallery__button-like button"></button>
+          <div class="gallery__like-wrapper">
+            <button class="gallery__button-like button">
+            </button>
+            <span class="gallery__likes-count">0</span>
+          </div>
         </div>
         <img class="gallery__photo"
           alt="">

@@ -1,14 +1,15 @@
 export default class UserInfo {
-  constructor({ profileNameSelector, profileInfoSelector }) {
+  constructor({ profileNameSelector, profileInfoSelector, profileAvatarSelector }) {
     this._profileName = document.querySelector(profileNameSelector);
     this._profileInfo = document.querySelector(profileInfoSelector);
+    this._profileAvatar = document.querySelector(profileAvatarSelector);
   }
 
   // Метод сбора информации из профиля
   getUserInfo() {
     return {
       name: this._profileName.textContent,
-      info: this._profileInfo.textContent
+      job: this._profileInfo.textContent
     };
   }
 
@@ -16,5 +17,10 @@ export default class UserInfo {
   setUserInfo(data) {
     this._profileName.textContent = data.name;
     this._profileInfo.textContent = data.job;
+  }
+
+  setUserAvatar(url) {
+    console.log(this._profileAvatar.src);
+    this._profileAvatar.src = url.link;
   }
 }
