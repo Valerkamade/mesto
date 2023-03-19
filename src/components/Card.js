@@ -3,7 +3,8 @@ export default class Card {
   constructor({ data, templateSelector, handleCardLikeClick, handelCardTrashClick }) {
     this._name = data.name;
     this._link = data.link;
-    this._alt = data.alt;
+    this._alt = data.name;
+    this._likesCounter = data.likes.length;
     this._templateSelector = templateSelector;
     this._handleCardLikeClick = handleCardLikeClick;
     this._handelCardTrashClick = handelCardTrashClick;
@@ -34,6 +35,7 @@ export default class Card {
     this._photo.src = this._link;
     this._title.textContent = this._name;
     this._photo.alt = this._alt;
+    this._counterLikes.textContent = this._likesCounter;
 
     // Устанавливаем слушатель
     this._setEventListeners();

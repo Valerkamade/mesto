@@ -9,18 +9,17 @@ export default class UserInfo {
   getUserInfo() {
     return {
       name: this._profileName.textContent,
-      job: this._profileInfo.textContent
+      about: this._profileInfo.textContent
     };
   }
 
   // Метод вставки информации из формы в профиль
   setUserInfo(data) {
     this._profileName.textContent = data.name;
-    this._profileInfo.textContent = data.job;
+    this._profileInfo.textContent = data.about;
   }
 
   setUserAvatar(url) {
-    console.log(this._profileAvatar.src);
-    this._profileAvatar.src = url.link;
+    this._profileAvatar.src = url.avatar;
   }
 }

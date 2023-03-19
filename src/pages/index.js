@@ -5,6 +5,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import Api from '../components/Api.js';
 import { initialCards, objectData } from '../utils/constants.js';
 import './index.css';
 
@@ -36,6 +37,28 @@ const enableValidation = (data) => {
     validator.enableValidation();
   });
 };
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  headers: {
+    authorization: 'bc0a2640-5424-4c06-abb5-a57662fac618',
+    'Content-Type': 'application/json'
+  }
+});
+
+api.getInitialCards()
+  .then((result) => {
+    cardSection.renderItems(result);// обрабатываем результат
+  })
+
+// Полчение данных пользователья с сервера
+api.getUserInfoApi()
+  .then((result) => {
+    userInfo.setUserInfo(result);
+    userInfo.setUserAvatar(result);
+  })
+
+// api.setUserInfoApi({name:'awfghs3', about: 'ghfk'})
 
 // Экземпляр поапа картинки
 const popupImage = new PopupWithImage('.popup_type_img');
@@ -83,23 +106,28 @@ const popupProfile = new PopupWithForm(
   '.popup_type_profile',
   {
     submitCallback: (data) => {
-      userInfo.setUserInfo(data);
+      api.setUserInfoApi(data)
+        .then((result) => {
+          userInfo.setUserInfo(result);
+        });
     }
   }
 );
 
-// Создание экземпляра попапа с формой добавления карточки
+
 const popupAddCard = new PopupWithForm(
   '.popup_type_place',
   {
-    submitCallback: ({ link, title }) => {
-      const newCard = card({
-        name: title,
-        link: link,
-        alt: title,
-      });
-      cardSection.addItem(newCard.generateCard());
-      newCard.activeButtonTrush();
+    submitCallback: ({ link, name }) => {
+      api.setNewCard({ link, name })
+        .then(({ link, name }) => {
+          const newCard = card({
+            name: name,
+            link: link,
+            alt: name,
+          });
+          generateNewCard(newCard);
+        });
     }
   }
 );
@@ -113,6 +141,8 @@ const popupEditAvatar = new PopupWithForm(
     }
   }
 );
+
+console.log();
 
 // Открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
@@ -136,7 +166,7 @@ buttonProfile.addEventListener('click', () => {
 enableValidation(objectData);
 
 // Отрисовка первоначальных карточек
-cardSection.renderItems(initialCards);
+// cardSection.renderItems(initialCards);
 
 // Установка слушателей попапов
 popupImage.setEventListeners();
