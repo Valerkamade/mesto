@@ -4,10 +4,14 @@ export default class Card {
     this._name = data.name;
     this._link = data.link;
     this._alt = data.name;
+    this._idCard = data._id;
+    this._idUser = data.owner._id;
     this._likesCounter = data.likes.length;
     this._templateSelector = templateSelector;
     this._handleCardLikeClick = handleCardLikeClick;
     this._handelCardTrashClick = handelCardTrashClick;
+    // console.log(this._idCard);
+    // console.log(this._idUser);
   }
 
   // Метод получения шаблона
@@ -37,9 +41,13 @@ export default class Card {
     this._photo.alt = this._alt;
     this._counterLikes.textContent = this._likesCounter;
 
+    if (this._idUser === '5166ef7eeca61821d9341f48') {
+      this._buttonTrash.classList.add('gallery__button-trash_active');
+    }
+
     // Устанавливаем слушатель
     this._setEventListeners();
-    
+
     return this._element;
   }
 
@@ -55,11 +63,6 @@ export default class Card {
   activeButtonTrush() {
     this._buttonTrash.classList.add('gallery__button-trash_active');
   }
-  // Обработчик клика по кнопке корзина
-  // _handleDeleteCard() {
-  //   this._element.remove();
-  //   this._element = null;
-  // }
 
   // Метод добавления слушателей
   _setEventListeners() {

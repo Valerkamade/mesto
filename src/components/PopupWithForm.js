@@ -29,14 +29,6 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  setElement(element) {
-    this._element = element;
-  }
-
-  getElement() {
-    return this._element;
-  }
-
   // Метод закрытия попапа со сбросом формы
   close() {
     super.close();

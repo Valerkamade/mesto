@@ -15,7 +15,7 @@
   left: 0;
   width: 120px;
   aspect-ratio: 1;
-  background: var(--color-second) url("../../../images/icon-edit.svg") center/26px 26px no-repeat;
+  background: var(--color-main-80) url("../../../images/icon-edit.svg") center/26px 26px no-repeat;
   transition: 1s opacity ease-out;
   border-radius: 50%;
 }

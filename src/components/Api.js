@@ -5,7 +5,6 @@ export default class Api {
     // this._contentType = headers['Content-Type'];
     this._headers = headers;
     this._apiCallback = apiCallback;
-    console.log(this._headers['authorization']);
   }
 
   _catch(err) {

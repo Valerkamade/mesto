@@ -5,6 +5,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupConfirmation from '../components/PopupConfirmation.js';
 import Api from '../components/Api.js';
 import { initialCards, objectData } from '../utils/constants.js';
 import './index.css';
@@ -46,11 +47,6 @@ const api = new Api({
   }
 });
 
-api.getInitialCards()
-  .then((result) => {
-    cardSection.renderItems(result);// обрабатываем результат
-  })
-
 // Полчение данных пользователья с сервера
 api.getUserInfoApi()
   .then((result) => {
@@ -58,17 +54,17 @@ api.getUserInfoApi()
     userInfo.setUserAvatar(result);
   })
 
-// api.setUserInfoApi({name:'awfghs3', about: 'ghfk'})
-
 // Экземпляр поапа картинки
 const popupImage = new PopupWithImage('.popup_type_img');
 
 //Экземпляр попапа удаления карточки
-const popupDeleteCard = new PopupWithForm(
+const popupDeleteCard = new PopupConfirmation(
   '.popup_type_delete',
   {
     submitCallback: () => {
       const el = popupDeleteCard.getElement();
+      console.log(el);
+      api.deleteCard('64176aaf806b1c02c780946c');
       el.remove();
     }
   }
@@ -96,6 +92,7 @@ const generateNewCard = (data) => {
 // Создание экземпляра секции
 const cardSection = new Section({
   renderer: (item) => {
+    // console.log(item);
     cardSection.addItem(generateNewCard(item));
   },
   containerSelector: '.gallery__list'
@@ -166,7 +163,11 @@ buttonProfile.addEventListener('click', () => {
 enableValidation(objectData);
 
 // Отрисовка первоначальных карточек
-// cardSection.renderItems(initialCards);
+api.getInitialCards()
+  .then((result) => {
+    console.log(result);
+    cardSection.renderItems(result);// обрабатываем результат
+  })
 
 // Установка слушателей попапов
 popupImage.setEventListeners();
