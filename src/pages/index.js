@@ -15,6 +15,20 @@ const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 const buttonProfile = document.querySelector('.profile__button-avatar');
 
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
+  headers: {
+    authorization: 'bc0a2640-5424-4c06-abb5-a57662fac618',
+    'Content-Type': 'application/json'
+  }
+});
+
+const promUser = api.getUserInfoApi();
+const promCard = api.getInitialCards();
+const promDelete = (idCard) => api.deleteCard(idCard);
+
+
 // Экземпляр класса профиля
 const userInfo = new UserInfo(
   {
@@ -39,20 +53,7 @@ const enableValidation = (data) => {
   });
 };
 
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
-  headers: {
-    authorization: 'bc0a2640-5424-4c06-abb5-a57662fac618',
-    'Content-Type': 'application/json'
-  }
-});
 
-// Полчение данных пользователья с сервера
-api.getUserInfoApi()
-  .then((result) => {
-    userInfo.setUserInfo(result);
-    userInfo.setUserAvatar(result);
-  })
 
 // Экземпляр поапа картинки
 const popupImage = new PopupWithImage('.popup_type_img');
@@ -64,14 +65,14 @@ const popupDeleteCard = new PopupConfirmation(
     submitCallback: () => {
       const el = popupDeleteCard.getElement();
       console.log(el);
-      api.deleteCard('64176aaf806b1c02c780946c');
+      promDelete('64176aaf806b1c02c780946c');
       el.remove();
     }
   }
 );
 
 // Функция создания экземпляра карточки
-const card = (data) => new Card({
+const card = (data, user) => new Card({
   data: data,
   templateSelector: '.card-template',
   handleCardLikeClick: () => {
@@ -81,19 +82,19 @@ const card = (data) => new Card({
     popupDeleteCard.open();
     const element = evt.target.closest('.gallery__item');
     popupDeleteCard.setElement(element);
-  }
+  },
+  user: user
 })
 
 // Функция генерации карточки
-const generateNewCard = (data) => {
-  return card(data).generateCard();
+const generateNewCard = (data, user) => {
+  return card(data, user).generateCard();
 }
 
 // Создание экземпляра секции
 const cardSection = new Section({
-  renderer: (item) => {
-    // console.log(item);
-    cardSection.addItem(generateNewCard(item));
+  renderer: (item, user) => {
+    cardSection.addItem(generateNewCard(item, user));
   },
   containerSelector: '.gallery__list'
 });
@@ -139,7 +140,15 @@ const popupEditAvatar = new PopupWithForm(
   }
 );
 
-console.log();
+// Полчение данных пользователья с сервера
+// api.getUserInfoApi()
+//   .then((result) => {
+//     userInfo.setUserInfo(result);
+//     popupEditAvatar.fillInputs(result);
+//   });
+
+
+// console.log(123);
 
 // Открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
@@ -157,17 +166,13 @@ buttonAdd.addEventListener('click', () => {
 //Открытие попапа аватара
 buttonProfile.addEventListener('click', () => {
   popupEditAvatar.open();
+  formValidators['avatar'].clearValidation();
 });
 
 // Вызов валидации
 enableValidation(objectData);
 
-// Отрисовка первоначальных карточек
-api.getInitialCards()
-  .then((result) => {
-    console.log(result);
-    cardSection.renderItems(result);// обрабатываем результат
-  })
+
 
 // Установка слушателей попапов
 popupImage.setEventListeners();
@@ -175,3 +180,16 @@ popupProfile.setEventListeners();
 popupAddCard.setEventListeners();
 popupDeleteCard.setEventListeners();
 popupEditAvatar.setEventListeners();
+
+
+
+
+
+
+
+
+// Отрисовка первоначальных карточек
+Promise.all([promCard, promUser])
+  .then(([promCard, promUser]) => {
+    cardSection.renderItems(promCard, promUser);
+  })

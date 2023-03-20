@@ -10,9 +10,9 @@ export default class Section {
   }
 
   // Метод отрисовки контента
-  renderItems(items) {
+  renderItems(items, user) {
     items.forEach(item => {
-      this._renderer(item);
+      this._renderer(item, user);
     });
   }
 }

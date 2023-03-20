@@ -40,6 +40,7 @@
 @import url(../blocks/gallery/__button-like/_active/gallery__button-like_active.css);
 @import url(../blocks/gallery/__button-trash/gallery__button-trash.css);
 @import url(../blocks/gallery/__button-trash/_active/gallery__button-trash_active.css);
+@import url(../blocks/gallery/__item-id/gallery__item-id.css);
 
 /* Импорт footer */
 @import url(../blocks/footer/__copyright/footer__copyright.css);
