@@ -7,7 +7,7 @@ import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupConfirmation from '../components/PopupConfirmation.js';
 import Api from '../components/Api.js';
-import { initialCards, objectData } from '../utils/constants.js';
+import { objectData } from '../utils/constants.js';
 import './index.css';
 
 // Кнопки открытия попапаов
@@ -37,6 +37,10 @@ const userInfo = new UserInfo(
     profileAvatarSelector: '.profile__avatar'
   },
 );
+
+promUser.then((result) => {
+  userInfo.setUserInfo(result);
+});
 
 // Экземпляры класса валидаци
 const formValidators = {};
@@ -135,7 +139,10 @@ const popupEditAvatar = new PopupWithForm(
   '.popup_type_avatar',
   {
     submitCallback: (data) => {
-      userInfo.setUserAvatar(data);
+      api.setUserAvatarApi(data)
+        .then((data) => {
+          userInfo.setUserInfo(data)
+        });
     }
   }
 );

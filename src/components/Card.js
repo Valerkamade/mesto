@@ -5,7 +5,7 @@ export default class Card {
     this._link = data.link;
     this._alt = data.name;
     this._idCard = data._id;
-    // this._idUserCard = data.owner._id;
+    this._idUserCard = data.owner._id;
     this._likesCounter = data.likes.length;
     this._templateSelector = templateSelector;
     this._handleCardLikeClick = handleCardLikeClick;
@@ -42,9 +42,9 @@ export default class Card {
     this._title.textContent = this._name;
     this._photo.alt = this._alt;
     this._counterLikes.textContent = this._likesCounter;
-    this._idCard = '';
+    this._idCard = this._;
 
-    if (this._idCard === this._userId) {
+    if (this._idUserCard === this._userId) {
       this._buttonTrash.classList.add('gallery__button-trash_active');
     }
     // console.log(this._userId)

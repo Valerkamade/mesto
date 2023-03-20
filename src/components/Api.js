@@ -53,6 +53,20 @@ export default class Api {
       .catch(err => this._catch(err))
   }
 
+  setUserAvatarApi({ avatar }) {
+    return fetch(`${this._baseUrl}/users/me/avatar`,
+      {
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+          avatar: avatar
+        })
+      }
+    )
+      .then(res => this._getPromise(res))
+      .catch(err => this._catch(err))
+  }
+
   setNewCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`,
       {
