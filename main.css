@@ -28,6 +28,7 @@
 .gallery__button-like_active{background:url(images/icon-heart-active.fe17a515669479b1e649.svg)}
 .gallery__button-trash{background:url(images/icon-trash.823b0cf1b0b7e9cb7cad.svg) no-repeat;border:none;display:none;filter:drop-shadow(0 0 1px var(--color-main));height:19px;position:absolute;right:20px;top:20px;width:18px;z-index:1}
 .gallery__button-trash_active{display:block}
+.gallery__item-id{display:none}
 .footer__copyright{color:var(--color-gray);margin:0 auto;max-width:880px;padding:0 19px 36px}@media (min-width:880px){.footer__copyright{font-size:18px;line-height:22px;padding:0 0 60px}}
 .popup{align-items:center;background-color:var(--color-main-50);bottom:0;display:flex;justify-content:center;left:0;opacity:0;position:fixed;right:0;top:0;transition:all .5s ease-in;visibility:hidden;z-index:5}
 .popup__container{background-color:var(--color-second);border-radius:10px;box-sizing:border-box;max-width:282px;padding:25px 22px;position:relative}@media (min-width:880px){.popup__container{max-width:430px;padding:34px 36px 37px}}
