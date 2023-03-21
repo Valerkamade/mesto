@@ -5,9 +5,9 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import PopupConfirmation from '../components/PopupConfirmation.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import Api from '../components/Api.js';
-import { objectData } from '../utils/constants.js';
+import { objectData, apiConfig } from '../utils/constants.js';
 import './index.css';
 
 // Кнопки открытия попапаов
@@ -16,23 +16,7 @@ const buttonAdd = document.querySelector('.profile__button-add');
 const buttonProfile = document.querySelector('.profile__button-avatar');
 
 // Экземпляр класса запроса данных с сервера
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-62',
-  headers: {
-    authorization: 'bc0a2640-5424-4c06-abb5-a57662fac618',
-    'Content-Type': 'application/json'
-  }
-});
-
-// Ответы с сервера
-const promUserInfo = api.getUserInfoApi();
-const promCardInfo = api.getInitialCards();
-const promAddNewCard = data => api.addNewCard(data)
-const promDeleteCard = card => api.deleteCard(card);
-const promToggleLike = (idCard, isLike) => api.toggleLikeCard(idCard, isLike);
-const promSetUserInfo = data => api.setUserInfoApi(data);
-const promSetAvatar = data => api.setUserAvatar(data);
-const promAll = (...prom) => Promise.all([...prom]);
+const api = new Api(apiConfig);
 
 // Экземпляр класса профиля
 const userInfo = new UserInfo(
@@ -62,28 +46,30 @@ const enableValidation = (data) => {
 const popupImage = new PopupWithImage('.popup_type_img');
 
 // Функция создания экземпляра карточки
-const createCard = (data, user) => new Card({
-  data: data,
-  user: user,
-  templateSelector: '.card-template',
+const createCard = (data, user) => {
+  const card = new Card({
+    data: data,
+    user: user,
+    templateSelector: '.card-template',
 
-  handleCardClick: () => {
-    popupImage.open(data);
-  },
+    handleCardClick: () => {
+      popupImage.open(data);
+    },
 
-  handelCardTrashClick: (idCard, card) => {
-    popupDeleteCard.open(idCard, card);
-  },
+    handelCardTrashClick: (idCard, card) => {
+      popupDeleteCard.open(idCard, card);
+    },
 
-  handleToggleLike: (idCard, isLiked) => {
-    promToggleLike(idCard, isLiked)
-    // .then()
-    // .catch()
-    // .finally(() => {
-
-    //     });;
-  }
-}).generateCard()
+    handleToggleLike: (idCard, isLiked) => {
+      api.toggleLikeCardApi(idCard, isLiked)
+        .then(() => {
+          card.toggleLike()
+        })
+        .catch(err => console.log(err));
+    }
+  });
+  return card.generateCard();
+}
 
 // Создание экземпляра секции
 const cardSection = new Section({
@@ -99,7 +85,7 @@ const popupProfile = new PopupWithForm(
   {
     submitCallback: (data) => {
       popupProfile.renderLoading(true, 'Сохранение...');
-      promSetUserInfo(data)
+      api.setUserInfoApi(data)
         .then((result) => {
           userInfo.setUserInfo(result);
           popupProfile.close();
@@ -118,7 +104,7 @@ const popupEditAvatar = new PopupWithForm(
   {
     submitCallback: (data) => {
       popupEditAvatar.renderLoading(true, 'Сохранение...');
-      promSetAvatar(data)
+      api.setUserAvatarApi(data)
         .then((result) => {
           userInfo.setUserInfo(result)
           popupEditAvatar.close();
@@ -137,7 +123,7 @@ const popupAddCard = new PopupWithForm(
   {
     submitCallback: (data) => {
       popupAddCard.renderLoading(true, 'Создание...');
-      promAll(promAddNewCard(data), promUserInfo)
+      Promise.all([api.addNewCardApi(data), api.getUserInfoApi()])
         .then(([newCard, userInfo]) => {
           cardSection.prependItem(createCard(newCard, userInfo));
           popupAddCard.close();
@@ -145,21 +131,22 @@ const popupAddCard = new PopupWithForm(
         .catch(err => console.log(err))
         .finally(() => {
           popupAddCard.renderLoading(false);
-        });;
+        });
     }
   }
 );
 
 //Экземпляр попапа удаления карточки
-const popupDeleteCard = new PopupConfirmation(
+const popupDeleteCard = new PopupWithConfirmation(
   '.popup_type_delete',
   {
     submitCallback: (cardId, card) => {
       popupDeleteCard.renderLoading(true, 'Удаление...');
-      promDeleteCard(cardId)
+      api.deleteCardApi(cardId)
         .then(() => {
           popupDeleteCard.close();
           card.remove();
+          card = null;
         })
         .catch(err => console.log(err))
         .finally(() => {
@@ -193,12 +180,12 @@ buttonProfile.addEventListener('click', () => {
 enableValidation(objectData);
 
 // Рендер данных с сервера
-promAll(promUserInfo, promCardInfo)
+Promise.all([api.getUserInfoApi(), api.getInitialCardsApi()])
   .then(([promUser, promCard]) => {
     userInfo.setUserInfo(promUser);
-    cardSection.renderItems(promCard, promUser);
+    cardSection.renderItems(promCard, promUser)
   })
-  .catch(err => console.log(err));
+  .catch(err => console.log(err))
 
 // Установка слушателей попапов
 popupImage.setEventListeners();

@@ -1,12 +1,14 @@
 // Экспорт по умолчанию класса создания карточки
 export default class Card {
-  constructor({
-    data,
-    user,
-    templateSelector,
-    handleCardClick,
-    handelCardTrashClick,
-    handleToggleLike }) {
+  constructor(
+    {
+      data,
+      user,
+      templateSelector,
+      handleCardClick,
+      handelCardTrashClick,
+      handleToggleLike
+    }) {
     this._dataLikes = data.likes;
     this._name = data.name;
     this._link = data.link;
@@ -32,7 +34,8 @@ export default class Card {
 
     return cardElement;
   }
-// Метод проверки наличия лайка на крточке
+
+  // Метод проверки наличия лайка пользователя на крточке
   _isLiked() {
     return this._dataLikes.some((element) => {
       return element.name === this._user['name'];
@@ -55,10 +58,12 @@ export default class Card {
     this._photo.alt = this._alt;
     this._counterLikes.textContent = this._likesCounter;
 
+    // Проверка пользователем ли добавлена карточка для активации кнопки удаления
     if (this._idUserCard === this._userId) {
       this._buttonTrash.classList.add('gallery__button-trash_active');
     }
 
+    // Установка активного лайка по данным с сервера
     if (this._isLiked()) {
       this._buttonLike.classList.add('gallery__button-like_active');
     }
@@ -80,10 +85,8 @@ export default class Card {
 
   // Метод добавления слушателей
   _setEventListeners() {
-
     this._buttonLike.addEventListener('click', () => {
       this._handleToggleLike(this._idCard, this._isLiked());
-      this._toggleLike();
     });
 
     this._buttonTrash.addEventListener('click', () => {

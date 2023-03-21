@@ -5,6 +5,7 @@ export default class Api {
     this._headers = headers;
   }
 
+  // Метод проверки успешности запроса
   _isOk(res) {
     if (res.ok) {
       return res.json();
@@ -12,11 +13,8 @@ export default class Api {
     return Promise.reject(`Что-то где-то пошло не так... Код ошибки ${res.status}`);
   }
 
-  errorMessage() {
-    
-  }
-
-  getInitialCards() {
+  // метод запроса данных карточек с сервера
+  getInitialCardsApi() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
         authorization: this._authorization
@@ -25,6 +23,7 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
+  // Метод запроса данных пользователя с сервера
   getUserInfoApi() {
     return fetch(`${this._baseUrl}/users/me`,
       {
@@ -36,6 +35,7 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
+  // Метот передачи данных пользователя на сервер
   setUserInfoApi({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`,
       {
@@ -50,7 +50,8 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
-  setUserAvatar({ avatar }) {
+  // Метод передачи на сервер новых данных о пользователе 
+  setUserAvatarApi({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`,
       {
         method: 'PATCH',
@@ -63,7 +64,8 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
-  addNewCard({ name, link }) {
+  // Метод добавления новой карточки на сервер
+  addNewCardApi({ name, link }) {
     return fetch(`${this._baseUrl}/cards`,
       {
         method: 'POST',
@@ -77,7 +79,8 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
-  deleteCard(cardId) {
+  // Метод удаления карточки с сервера
+  deleteCardApi(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`,
       {
         method: 'DELETE',
@@ -87,7 +90,9 @@ export default class Api {
       .then(res => this._isOk(res))
   }
 
-  toggleLikeCard(cardID, isLiked) {
+
+  // Метод отправки данных об установке/снятии лайка на сервер
+  toggleLikeCardApi(cardID, isLiked) {
     if (!isLiked) {
       return fetch(`${this._baseUrl}/cards/${cardID}/likes`,
         {

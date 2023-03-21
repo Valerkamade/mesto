@@ -4,12 +4,12 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  // Метод добавления контента
+  // Метод добавления контента на странице в конец
   addItem(element) {
     this._container.append(element);
   }
 
-   // Метод добавления контента
+   // Метод добавления контента на странице в начало
    prependItem(element) {
     this._container.prepend(element);
   }
