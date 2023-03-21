@@ -2,6 +2,8 @@ export default class Popup {
   constructor(popupSelector) {
     this._popupElement = document.querySelector(popupSelector);
     this._buttonClose = this._popupElement.querySelector('.popup__button-close');
+    this._buttonSubmit = this._popupElement.querySelector('.popup__button-save');
+
   }
 
   // Метод закрытия попапа по Escape
@@ -15,6 +17,16 @@ export default class Popup {
   _handleOverlayClose(evt) {
     if (evt.target === evt.currentTarget) {
       this.close();
+    }
+  }
+
+  // Метод отображения загрузки
+  renderLoading(isLoading, loadingText) {
+    if (isLoading) {
+      this.defaultText = this._buttonSubmit.textContent;
+      this._buttonSubmit.textContent = loadingText;
+    } else {
+      this._buttonSubmit.textContent = this.defaultText;
     }
   }
 
@@ -36,6 +48,7 @@ export default class Popup {
       this.close();
     });
 
-    this._popupElement.addEventListener('mousedown', this._handleOverlayClose.bind(this));
+    this._popupElement.addEventListener('mousedown',
+      this._handleOverlayClose.bind(this));
   }
 }
