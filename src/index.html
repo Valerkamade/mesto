@@ -78,12 +78,12 @@
           <label class="popup__label">
             <input class="popup__input popup__input_type_job"
               type="text"
-              name="job"
+              name="about"
               placeholder="Вид деятельности"
               minlength="2"
               maxlength="200"
               required>
-            <span class="popup__error job-error">
+            <span class="popup__error about-error">
             </span>
           </label>
 
@@ -111,12 +111,12 @@
           <label class="popup__label">
             <input class="popup__input popup__input_type_title"
               type="text"
-              name="title"
+              name="name"
               placeholder="Название"
               minlength="2"
               maxlength="30"
               required>
-            <span class="popup__error title-error">
+            <span class="popup__error name-error">
             </span>
           </label>
 
@@ -158,17 +158,10 @@
     <div class="popup popup_type_delete">
       <div class="popup__container">
         <h2 class="popup__heading popup__heading_type_delete">Вы уверены?</h2>
-        <form class="popup__form popup__form_type_delete"
-          method="post"
-          name="delete"
-          autocomplete="off"
-          novalidate>
-
-          <button class="popup__button-save button"
-            type="submit">
-            Да
-          </button>
-        </form>
+        <button class="popup__button-save button"
+          type="submit">
+          Да
+        </button>
         <button class="popup__button-close button"
           type="button"
           aria-label="Закрыть">
@@ -186,18 +179,18 @@
           novalidate>
 
           <label class="popup__label">
-            <input class="popup__input popup__input_type_link"
+            <input class="popup__input popup__input_type_avatar"
               type="url"
-              name="link"
-              placeholder="Ссылка на картинку"
+              name="avatar"
+              placeholder="Ссылка на аватар"
               required>
-            <span class="popup__error link-error">
+            <span class="popup__error avatar-error">
             </span>
           </label>
 
           <button class="popup__button-save button"
             type="submit">
-            Создать
+            Сохранить
           </button>
         </form>
         <button class="popup__button-close button"

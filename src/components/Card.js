@@ -1,12 +1,27 @@
 // Экспорт по умолчанию класса создания карточки
 export default class Card {
-  constructor({ data, templateSelector, handleCardLikeClick, handelCardTrashClick }) {
+  constructor(
+    {
+      data,
+      user,
+      templateSelector,
+      handleCardClick,
+      handelCardTrashClick,
+      handleToggleLike
+    }) {
+    this._dataLikes = data.likes;
     this._name = data.name;
     this._link = data.link;
-    this._alt = data.alt;
+    this._alt = data.name;
+    this._idCard = data._id;
+    this._idUserCard = data.owner._id;
+    this._likesCounter = data.likes.length;
     this._templateSelector = templateSelector;
-    this._handleCardLikeClick = handleCardLikeClick;
+    this._handleCardClick = handleCardClick;
     this._handelCardTrashClick = handelCardTrashClick;
+    this._handleToggleLike = handleToggleLike;
+    this._userId = user._id;
+    this._user = user;
   }
 
   // Метод получения шаблона
@@ -18,6 +33,13 @@ export default class Card {
       .cloneNode(true);
 
     return cardElement;
+  }
+
+  // Метод проверки наличия лайка пользователя на крточке
+  _isLiked() {
+    return this._dataLikes.some((element) => {
+      return element.name === this._user['name'];
+    })
   }
 
   // Метод генерации карточки
@@ -34,15 +56,26 @@ export default class Card {
     this._photo.src = this._link;
     this._title.textContent = this._name;
     this._photo.alt = this._alt;
+    this._counterLikes.textContent = this._likesCounter;
+
+    // Проверка пользователем ли добавлена карточка для активации кнопки удаления
+    if (this._idUserCard === this._userId) {
+      this._buttonTrash.classList.add('gallery__button-trash_active');
+    }
+
+    // Установка активного лайка по данным с сервера
+    if (this._isLiked()) {
+      this._buttonLike.classList.add('gallery__button-like_active');
+    }
 
     // Устанавливаем слушатель
     this._setEventListeners();
-    
+
     return this._element;
   }
 
-  // Обработчик клика по кнопке лайк
-  _handleToggleLike() {
+  // Переключатель лайка
+  toggleLike() {
     this._buttonLike.classList.toggle('gallery__button-like_active');
     const count = this._counterLikes.textContent;
     this._buttonLike.classList.contains('gallery__button-like_active')
@@ -50,27 +83,19 @@ export default class Card {
       : this._counterLikes.textContent = Number(count) - 1;
   }
 
-  activeButtonTrush() {
-    this._buttonTrash.classList.add('gallery__button-trash_active');
-  }
-  // Обработчик клика по кнопке корзина
-  // _handleDeleteCard() {
-  //   this._element.remove();
-  //   this._element = null;
-  // }
-
   // Метод добавления слушателей
   _setEventListeners() {
     this._buttonLike.addEventListener('click', () => {
-      this._handleToggleLike();
+      this._handleToggleLike(this._idCard, this._isLiked());
     });
 
-    this._buttonTrash.addEventListener('click', (evt) => {
-      this._handelCardTrashClick(evt);
+    this._buttonTrash.addEventListener('click', () => {
+      this._handelCardTrashClick(this._idCard, this._element);
     })
 
     this._photo.addEventListener('click', () => {
-      this._handleCardLikeClick();
+      this._handleCardClick();
     })
   };
+
 }
