@@ -9,6 +9,11 @@ export default class Section {
     this._container.append(element);
   }
 
+   // Метод добавления контента
+   prependItem(element) {
+    this._container.prepend(element);
+  }
+
   // Метод отрисовки контента
   renderItems(items, user) {
     items.forEach(item => {

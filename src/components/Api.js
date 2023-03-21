@@ -1,41 +1,39 @@
 export default class Api {
-  constructor({ baseUrl, headers, apiCallback }) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
-    // this._authorization = headers['authorization'];
-    // this._contentType = headers['Content-Type'];
+    this._authorization = headers['authorization'];
     this._headers = headers;
-    this._apiCallback = apiCallback;
   }
 
-  _catch(err) {
-    return console.log(err);
-  }
-
-  _getPromise(res) {
+  _isOk(res) {
     if (res.ok) {
       return res.json();
     }
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`Что-то где-то пошло не так... Код ошибки ${res.status}`);
+  }
+
+  errorMessage() {
+    
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: {
+        authorization: this._authorization
+      }
     })
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
-
+      .then(res => this._isOk(res))
   }
 
   getUserInfoApi() {
     return fetch(`${this._baseUrl}/users/me`,
       {
-        headers: this._headers
+        headers: {
+          authorization: this._authorization
+        }
       }
     )
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
+      .then(res => this._isOk(res))
   }
 
   setUserInfoApi({ name, about }) {
@@ -49,11 +47,10 @@ export default class Api {
         })
       }
     )
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
+      .then(res => this._isOk(res))
   }
 
-  setUserAvatarApi({ avatar }) {
+  setUserAvatar({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`,
       {
         method: 'PATCH',
@@ -63,11 +60,10 @@ export default class Api {
         })
       }
     )
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
+      .then(res => this._isOk(res))
   }
 
-  setNewCard({ name, link }) {
+  addNewCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`,
       {
         method: 'POST',
@@ -78,8 +74,7 @@ export default class Api {
         })
       }
     )
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
+      .then(res => this._isOk(res))
   }
 
   deleteCard(cardId) {
@@ -89,7 +84,26 @@ export default class Api {
         headers: this._headers
       }
     )
-      .then(res => this._getPromise(res))
-      .catch(err => this._catch(err))
+      .then(res => this._isOk(res))
+  }
+
+  toggleLikeCard(cardID, isLiked) {
+    if (!isLiked) {
+      return fetch(`${this._baseUrl}/cards/${cardID}/likes`,
+        {
+          method: 'PUT',
+          headers: this._headers
+        }
+      )
+        .then(res => this._isOk(res))
+    } else {
+      return fetch(`${this._baseUrl}/cards/${cardID}/likes`,
+        {
+          method: 'DELETE',
+          headers: this._headers
+        }
+      )
+        .then(res => this._isOk(res))
+    }
   }
 }
