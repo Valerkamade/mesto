@@ -14,6 +14,7 @@ import './index.css';
 const buttonEdit = document.querySelector('.profile__button-edit');
 const buttonAdd = document.querySelector('.profile__button-add');
 const buttonProfile = document.querySelector('.profile__button-avatar');
+let userCurrentId;
 
 // Экземпляр класса запроса данных с сервера
 const api = new Api(apiConfig);
@@ -49,21 +50,21 @@ const popupImage = new PopupWithImage('.popup_type_img');
 const createCard = (data, user) => {
   const card = new Card({
     data: data,
-    user: user,
+    userId: user,
     templateSelector: '.card-template',
 
     handleCardClick: () => {
       popupImage.open(data);
     },
 
-    handelCardTrashClick: (idCard, card) => {
-      popupDeleteCard.open(idCard, card);
+    handelCardTrashClick: (card) => {
+      popupDeleteCard.open(card);
     },
 
-    handleToggleLike: (idCard, isLiked) => {
-      api.toggleLikeCardApi(idCard, isLiked)
-        .then(() => {
-          card.toggleLike()
+    handleToggleLike: (card) => {
+      api.toggleLikeCardApi(card.idCard, card.isLiked(card.dataLikes))
+        .then(res => {
+          card.toggleLike(res)
         })
         .catch(err => console.log(err));
     }
@@ -73,11 +74,20 @@ const createCard = (data, user) => {
 
 // Создание экземпляра секции
 const cardSection = new Section({
-  renderer: (item, user) => {
-    cardSection.addItem(createCard(item, user));
+  renderer: (item, userID) => {
+    cardSection.addItem(createCard(item, userID));
   },
   containerSelector: '.gallery__list'
 });
+
+// Рендер данных с сервера
+Promise.all([api.getUserInfoApi(), api.getInitialCardsApi()])
+  .then(([promUser, promCard]) => {
+    userCurrentId = promUser._id;
+    userInfo.setUserInfo(promUser);
+    cardSection.renderItems(promCard, userCurrentId)
+  })
+  .catch(err => console.log(err))
 
 // Создание экземпляра попапа с формой профиля
 const popupProfile = new PopupWithForm(
@@ -123,9 +133,10 @@ const popupAddCard = new PopupWithForm(
   {
     submitCallback: (data) => {
       popupAddCard.renderLoading(true, 'Создание...');
-      Promise.all([api.addNewCardApi(data), api.getUserInfoApi()])
-        .then(([newCard, userInfo]) => {
-          cardSection.prependItem(createCard(newCard, userInfo));
+      api.addNewCardApi(data)
+        .then((newCard) => {
+          console.log(userCurrentId)
+          cardSection.prependItem(createCard(newCard, userCurrentId));
           popupAddCard.close();
         })
         .catch(err => console.log(err))
@@ -140,13 +151,13 @@ const popupAddCard = new PopupWithForm(
 const popupDeleteCard = new PopupWithConfirmation(
   '.popup_type_delete',
   {
-    submitCallback: (cardId, card) => {
+    submitCallback: ({cardId, card}) => {
       popupDeleteCard.renderLoading(true, 'Удаление...');
       api.deleteCardApi(cardId)
         .then(() => {
-          popupDeleteCard.close();
           card.remove();
           card = null;
+          popupDeleteCard.close();
         })
         .catch(err => console.log(err))
         .finally(() => {
@@ -178,14 +189,6 @@ buttonProfile.addEventListener('click', () => {
 
 // Вызов валидации
 enableValidation(objectData);
-
-// Рендер данных с сервера
-Promise.all([api.getUserInfoApi(), api.getInitialCardsApi()])
-  .then(([promUser, promCard]) => {
-    userInfo.setUserInfo(promUser);
-    cardSection.renderItems(promCard, promUser)
-  })
-  .catch(err => console.log(err))
 
 // Установка слушателей попапов
 popupImage.setEventListeners();
