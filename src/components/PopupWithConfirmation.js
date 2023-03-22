@@ -7,18 +7,17 @@ export default class PopupWithConfirmation extends Popup {
   }
 
   // Метод открытия попапа и получения данных о карточке и Id карточки
-  open(cardId, card) {
+  open({idCard, element}) {
     super.open();
-    this._cardId = cardId;
-    this._card = card;
+    this.cardId = idCard;
+    this.card = element;
   }
 
   // Метод слушателей
   setEventListeners() {
     super.setEventListeners();
     this._buttonSubmit.addEventListener('click', () => {
-        this._submitCallback(this._cardId, this._card);
-      this.close();
+      this._submitCallback(this);
     });
   }
 }
