@@ -22,7 +22,7 @@ export default class Popup {
 
   // Метод отображения загрузки
   renderLoading(isLoading, loadingText) {
-    if (!this._buttonSubmit) console.log(21);
+    if (!this._buttonSubmit) return;
     if (isLoading) {
       this.defaultText = this._buttonSubmit.textContent;
       this._buttonSubmit.textContent = loadingText;
