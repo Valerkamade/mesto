@@ -14,7 +14,7 @@ export default class FormValidator {
 
   // Метод получения спана конкретного инпута
   _getErrorElement(inputElement) {
-    return this._errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);
+    return this._formElement.querySelector(`.${inputElement.name}-error`);
   }
 
   // Метод отображения ошибок ввода

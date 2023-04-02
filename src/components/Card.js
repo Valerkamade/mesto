@@ -34,22 +34,15 @@ export default class Card {
     return cardElement;
   }
 
-  // Метод проверки наличия лайка пользователя на крточке
-  isLiked(likes) {
-    return likes.some((like) => {
-      return like._id === this._userId;
-    })
-  }
-
   // Метод генерации карточки
   generateCard() {
     // Находим карточку и все ее необходимые элементы
-    this.element = this._getTemplate();
-    this._photo = this.element.querySelector('.gallery__photo');
-    this._title = this.element.querySelector('.gallery__title');
-    this._buttonLike = this.element.querySelector('.gallery__button-like');
-    this._counterLikes = this.element.querySelector('.gallery__likes-count');
-    this._buttonTrash = this.element.querySelector('.gallery__button-trash');
+    this._element = this._getTemplate();
+    this._photo = this._element.querySelector('.gallery__photo');
+    this._title = this._element.querySelector('.gallery__title');
+    this._buttonLike = this._element.querySelector('.gallery__button-like');
+    this._counterLikes = this._element.querySelector('.gallery__likes-count');
+    this._buttonTrash = this._element.querySelector('.gallery__button-trash');
 
     // Вносим данные в генерируемую карточку
     this._photo.src = this._link;
@@ -58,8 +51,8 @@ export default class Card {
     this._counterLikes.textContent = this._likesCounter;
 
     // Проверка пользователем ли добавлена карточка для активации кнопки удаления
-    if (this._idUserCard === this._userId) {
-      this._buttonTrash.classList.add('gallery__button-trash_active');
+    if (this._idUserCard !== this._userId) {
+      this._buttonTrash.remove();
     }
 
     // Установка активного лайка по данным с сервера 
@@ -70,14 +63,27 @@ export default class Card {
     // Устанавливаем слушатель
     this._setEventListeners();
 
-    return this.element;
+    return this._element;
+  }
+
+  // Метод проверки наличия лайка пользователя на крточке
+  isLiked(likes) {
+    return likes.some((like) => {
+      return like._id === this._userId;
+    })
   }
 
   // Переключатель лайка
   toggleLike({ likes }) {
     this._buttonLike.classList.toggle('gallery__button-like_active');
     this._counterLikes.textContent = likes.length;
-    this._dataLikes = likes;
+    // this.dataLikes = likes;
+  }
+
+  // Метод удаления карточки
+  deletCard() {
+    this._element.remove();
+    this._element = null;
   }
 
   // Метод добавления слушателей
@@ -87,13 +93,16 @@ export default class Card {
     });
 
     this._buttonTrash.addEventListener('click', () => {
-      this._handelCardTrashClick(this);
-      // this._handelCardTrashClick(this._idCard, this._element);
+      this._handelCardTrashClick();
     })
 
     this._photo.addEventListener('click', () => {
       this._handleCardClick();
     })
+
+    this._photo.onerror = () => {
+      this._photo.src = 'https://i.postimg.cc/pdZyYzXq/img-01.png';
+    }
   };
 
 }

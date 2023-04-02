@@ -47,35 +47,35 @@ const enableValidation = (data) => {
 const popupImage = new PopupWithImage('.popup_type_img');
 
 // Функция создания экземпляра карточки
-const createCard = (data, user) => {
-  const card = new Card({
+const createCard = (data) => {
+  const newCard = new Card({
     data: data,
-    userId: user,
+    userId: userCurrentId,
     templateSelector: '.card-template',
 
     handleCardClick: () => {
       popupImage.open(data);
     },
 
-    handelCardTrashClick: (card) => {
-      popupDeleteCard.open(card);
+    handelCardTrashClick: () => {
+      popupDeleteCard.open(newCard);
     },
 
-    handleToggleLike: (card) => {
-      api.toggleLikeCardApi(card.idCard, card.isLiked(card.dataLikes))
+    handleToggleLike: () => {
+      api.toggleLikeCardApi(newCard.idCard, newCard.isLiked(newCard.dataLikes))
         .then(res => {
-          card.toggleLike(res)
+          newCard.toggleLike(res)
         })
         .catch(err => console.log(err));
     }
   });
-  return card.generateCard();
+  return newCard.generateCard();
 }
 
 // Создание экземпляра секции
 const cardSection = new Section({
-  renderer: (item, userID) => {
-    cardSection.addItem(createCard(item, userID));
+  renderer: (item) => {
+    cardSection.addItem(createCard(item));
   },
   containerSelector: '.gallery__list'
 });
@@ -85,7 +85,7 @@ Promise.all([api.getUserInfoApi(), api.getInitialCardsApi()])
   .then(([promUser, promCard]) => {
     userCurrentId = promUser._id;
     userInfo.setUserInfo(promUser);
-    cardSection.renderItems(promCard, userCurrentId)
+    cardSection.renderItems(promCard)
   })
   .catch(err => console.log(err))
 
@@ -135,8 +135,7 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.renderLoading(true, 'Создание...');
       api.addNewCardApi(data)
         .then((newCard) => {
-          console.log(userCurrentId)
-          cardSection.prependItem(createCard(newCard, userCurrentId));
+          cardSection.prependItem(createCard(newCard));
           popupAddCard.close();
         })
         .catch(err => console.log(err))
@@ -155,8 +154,7 @@ const popupDeleteCard = new PopupWithConfirmation(
       popupDeleteCard.renderLoading(true, 'Удаление...');
       api.deleteCardApi(cardId)
         .then(() => {
-          card.remove();
-          card = null;
+          card.deletCard();
           popupDeleteCard.close();
         })
         .catch(err => console.log(err))
